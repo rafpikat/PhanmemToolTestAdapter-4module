@@ -1,0 +1,14 @@
+bin/
+Tool_test_adapter_power.csproj.user
+*.suo
+.vs/
+*.log
+*.nupkg
+.vscode/
+[Bb]uild/
+[Ll]og/
+*.dbmdl
+*.pdb
+*.cache
+TestResults/
+.DS_Store
