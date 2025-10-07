@@ -10,3 +10,4 @@ Project 'Tool_test_adapter_power' has the following package references
 
    > System.Management               10.0.0-preview.4.25258.110   10.0.0-preview.4.25258.110
    > WinForms.DataVisualization      1.10.0                       1.10.0
+> Sử dụng visual studio 2022 để build code
