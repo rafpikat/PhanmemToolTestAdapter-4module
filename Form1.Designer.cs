@@ -205,6 +205,58 @@ namespace Tool_test_adapter_power
             btnStopProcessTestAll = new Button();
             btnRestartProcessTestAll = new Button();
             btnStartProcessTestAll = new Button();
+            // 
+            // groupBoxAdapter4
+            // 
+            groupBoxAdapter4 = new GroupBox();
+            groupBoxSave4 = new GroupBox();
+            buttonRetrySaveData4 = new Button();
+            labelStatusOfSaveExcel4 = new Label();
+            labelStatusOfSaveServer4 = new Label();
+            labelStatus4 = new Label();
+            labelUploadExcel4 = new Label();
+            labelUploadServer4 = new Label();
+            groupBoxMeasure4 = new GroupBox();
+            textBoxPowerMax4 = new TextBox();
+            textBoxPowerMin4 = new TextBox();
+            textBoxPower4 = new TextBox();
+            textBoxCurrentMax4 = new TextBox();
+            textBoxCurrentMin4 = new TextBox();
+            textBoxCurrent4 = new TextBox();
+            textBoxVoltageMax4 = new TextBox();
+            textBoxVoltageMin4 = new TextBox();
+            textBoxVoltage4 = new TextBox();
+            labelPowerUnit4a = new Label();
+            labelPowerUnit4b = new Label();
+            labelPowerUnit4c = new Label();
+            labelPowerTitle4 = new Label();
+            labelCurrentUnit4a = new Label();
+            labelCurrentUnit4b = new Label();
+            labelCurrentUnit4c = new Label();
+            labelCurrentTitle4 = new Label();
+            labelVoltageUnit4a = new Label();
+            labelVoltageUnit4b = new Label();
+            labelVoltageUnit4c = new Label();
+            labelVoltageTitle4 = new Label();
+            labelMax4a = new Label();
+            labelMin4a = new Label();
+            labelMax4b = new Label();
+            labelMin4b = new Label();
+            labelMax4c = new Label();
+            labelMin4c = new Label();
+            groupBoxControl4 = new GroupBox();
+            btnStopProcessTest4 = new Button();
+            labelTestControlStatus4 = new Label();
+            textBoxIDAdapter4 = new TextBox();
+            progressBarTest4 = new ProgressBar();
+            btnRestartProcessTest4 = new Button();
+            btnStartProcessTest4 = new Button();
+            checkBoxTestAdapter4 = new CheckBox();
+            groupBoxAdapter4.SuspendLayout();
+            groupBoxSave4.SuspendLayout();
+            groupBoxMeasure4.SuspendLayout();
+            groupBoxControl4.SuspendLayout();
+
             CONNECTION.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox12.SuspendLayout();
@@ -255,16 +307,16 @@ namespace Tool_test_adapter_power
             CONNECTION.Controls.Add(UartStatus);
             CONNECTION.Location = new Point(12, 12);
             CONNECTION.Name = "CONNECTION";
-            CONNECTION.Size = new Size(265, 122);
+            CONNECTION.Size = new Size(280, 122);
             CONNECTION.TabIndex = 4;
             CONNECTION.TabStop = false;
             CONNECTION.Text = "CONNECTION";
             // 
             // button1
             // 
-            button1.Location = new Point(153, 89);
+            button1.Location = new Point(160, 89);
             button1.Name = "button1";
-            button1.Size = new Size(106, 23);
+            button1.Size = new Size(100, 23);
             button1.TabIndex = 8;
             button1.Text = "Calib";
             button1.UseVisualStyleBackColor = true;
@@ -275,17 +327,17 @@ namespace Tool_test_adapter_power
             comboBoxBaurateUart.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxBaurateUart.FormattingEnabled = true;
             comboBoxBaurateUart.Items.AddRange(new object[] { "110", "300", "600", "1200", "2400", "4800", "9600", "14400", "19200", "28800", "38400", "56000", "57600", "115200", "230400" });
-            comboBoxBaurateUart.Location = new Point(70, 51);
+            comboBoxBaurateUart.Location = new Point(80, 51);
             comboBoxBaurateUart.Name = "comboBoxBaurateUart";
-            comboBoxBaurateUart.Size = new Size(77, 23);
+            comboBoxBaurateUart.Size = new Size(70, 23);
             comboBoxBaurateUart.TabIndex = 7;
             comboBoxBaurateUart.SelectedIndexChanged += comboBoxBaurateUart_SelectedIndexChanged_1;
             // 
             // btnConnect
             // 
-            btnConnect.Location = new Point(153, 24);
+            btnConnect.Location = new Point(160, 24);
             btnConnect.Name = "btnConnect";
-            btnConnect.Size = new Size(106, 23);
+            btnConnect.Size = new Size(100, 23);
             btnConnect.TabIndex = 5;
             btnConnect.Text = "CONNECT";
             btnConnect.UseVisualStyleBackColor = true;
@@ -294,7 +346,7 @@ namespace Tool_test_adapter_power
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(6, 54);
+            label1.Location = new Point(10, 54);
             label1.Name = "label1";
             label1.Size = new Size(64, 15);
             label1.TabIndex = 6;
@@ -304,9 +356,9 @@ namespace Tool_test_adapter_power
             // 
             comboBoxPortUart.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxPortUart.FormattingEnabled = true;
-            comboBoxPortUart.Location = new Point(70, 23);
+            comboBoxPortUart.Location = new Point(80, 23);
             comboBoxPortUart.Name = "comboBoxPortUart";
-            comboBoxPortUart.Size = new Size(77, 23);
+            comboBoxPortUart.Size = new Size(70, 23);
             comboBoxPortUart.TabIndex = 4;
             comboBoxPortUart.SelectedIndexChanged += comboBoxPortUart_SelectedIndexChanged_1;
             // 
@@ -316,9 +368,10 @@ namespace Tool_test_adapter_power
             groupBox1.Controls.Add(groupBox12);
             groupBox1.Controls.Add(groupBox2);
             groupBox1.Controls.Add(groupBox3);
-            groupBox1.Location = new Point(10, 271);
+            groupBox1.Location = new Point(15, 271);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(430, 471);
+            groupBox1.Size = new Size(450, 471);
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.TabIndex = 5;
             groupBox1.TabStop = false;
             groupBox1.Text = "NGUỒN SỐ 1";
@@ -331,16 +384,16 @@ namespace Tool_test_adapter_power
             groupBox12.Controls.Add(label67);
             groupBox12.Controls.Add(label66);
             groupBox12.Controls.Add(labelStatusOfSaveServer1);
-            groupBox12.Location = new Point(15, 369);
+            groupBox12.Location = new Point(10, 369);
             groupBox12.Name = "groupBox12";
-            groupBox12.Size = new Size(399, 76);
+            groupBox12.Size = new Size(420, 76);
             groupBox12.TabIndex = 7;
             groupBox12.TabStop = false;
             groupBox12.Text = "Qúa trình lưu trữ dữ liệu";
             // 
             // buttonRetrySaveData1
             // 
-            buttonRetrySaveData1.Location = new Point(35, 32);
+            buttonRetrySaveData1.Location = new Point(20, 32);
             buttonRetrySaveData1.Name = "buttonRetrySaveData1";
             buttonRetrySaveData1.Size = new Size(75, 25);
             buttonRetrySaveData1.TabIndex = 43;
@@ -351,7 +404,7 @@ namespace Tool_test_adapter_power
             // labelStatusOfSaveExcel1
             // 
             labelStatusOfSaveExcel1.AutoSize = true;
-            labelStatusOfSaveExcel1.Location = new Point(326, 31);
+            labelStatusOfSaveExcel1.Location = new Point(220, 31);
             labelStatusOfSaveExcel1.Name = "labelStatusOfSaveExcel1";
             labelStatusOfSaveExcel1.Size = new Size(30, 15);
             labelStatusOfSaveExcel1.TabIndex = 51;
@@ -361,7 +414,7 @@ namespace Tool_test_adapter_power
             // label69
             // 
             label69.AutoSize = true;
-            label69.Location = new Point(320, 11);
+            label69.Location = new Point(220, 11);
             label69.Name = "label69";
             label69.Size = new Size(39, 15);
             label69.TabIndex = 50;
@@ -372,7 +425,7 @@ namespace Tool_test_adapter_power
             // 
             label67.AutoSize = true;
             label67.Font = new Font("Segoe UI", 8.25F);
-            label67.Location = new Point(225, 32);
+            label67.Location = new Point(120, 32);
             label67.Name = "label67";
             label67.Size = new Size(90, 13);
             label67.TabIndex = 49;
@@ -382,7 +435,7 @@ namespace Tool_test_adapter_power
             // 
             label66.AutoSize = true;
             label66.Font = new Font("Segoe UI", 8.25F);
-            label66.Location = new Point(225, 55);
+            label66.Location = new Point(120, 55);
             label66.Name = "label66";
             label66.Size = new Size(95, 13);
             label66.TabIndex = 33;
@@ -391,7 +444,7 @@ namespace Tool_test_adapter_power
             // labelStatusOfSaveServer1
             // 
             labelStatusOfSaveServer1.AutoSize = true;
-            labelStatusOfSaveServer1.Location = new Point(326, 55);
+            labelStatusOfSaveServer1.Location = new Point(220, 55);
             labelStatusOfSaveServer1.Name = "labelStatusOfSaveServer1";
             labelStatusOfSaveServer1.Size = new Size(30, 15);
             labelStatusOfSaveServer1.TabIndex = 48;
@@ -423,9 +476,9 @@ namespace Tool_test_adapter_power
             groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(textBoxVoltage1);
-            groupBox2.Location = new Point(15, 31);
+            groupBox2.Location = new Point(10, 31);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(400, 159);
+            groupBox2.Size = new Size(420, 159);
             groupBox2.TabIndex = 0;
             groupBox2.TabStop = false;
             groupBox2.Text = "Thông số đo";
@@ -433,7 +486,7 @@ namespace Tool_test_adapter_power
             // label16
             // 
             label16.AutoSize = true;
-            label16.Location = new Point(373, 124);
+            label16.Location = new Point(272, 124);
             label16.Name = "label16";
             label16.Size = new Size(18, 15);
             label16.TabIndex = 37;
@@ -441,16 +494,16 @@ namespace Tool_test_adapter_power
             // 
             // textBoxPowerMax1
             // 
-            textBoxPowerMax1.Location = new Point(287, 121);
+            textBoxPowerMax1.Location = new Point(220, 121);
             textBoxPowerMax1.Name = "textBoxPowerMax1";
-            textBoxPowerMax1.Size = new Size(80, 23);
+            textBoxPowerMax1.Size = new Size(50, 23);
             textBoxPowerMax1.TabIndex = 36;
             textBoxPowerMax1.TextChanged += textBoxPowerMax_TextChanged;
             // 
             // label18
             // 
             label18.AutoSize = true;
-            label18.Location = new Point(261, 125);
+            label18.Location = new Point(187, 125);
             label18.Name = "label18";
             label18.Size = new Size(18, 15);
             label18.TabIndex = 34;
@@ -458,9 +511,9 @@ namespace Tool_test_adapter_power
             // 
             // textBoxPowerMin1
             // 
-            textBoxPowerMin1.Location = new Point(179, 120);
+            textBoxPowerMin1.Location = new Point(135, 120);
             textBoxPowerMin1.Name = "textBoxPowerMin1";
-            textBoxPowerMin1.Size = new Size(80, 23);
+            textBoxPowerMin1.Size = new Size(50, 23);
             textBoxPowerMin1.TabIndex = 33;
             // 
             // label19
@@ -476,7 +529,7 @@ namespace Tool_test_adapter_power
             // label20
             // 
             label20.AutoSize = true;
-            label20.Location = new Point(150, 125);
+            label20.Location = new Point(102, 125);
             label20.Name = "label20";
             label20.Size = new Size(18, 15);
             label20.TabIndex = 31;
@@ -484,16 +537,16 @@ namespace Tool_test_adapter_power
             // 
             // textBoxPower1
             // 
-            textBoxPower1.Location = new Point(69, 120);
+            textBoxPower1.Location = new Point(50, 120);
             textBoxPower1.Name = "textBoxPower1";
-            textBoxPower1.Size = new Size(80, 23);
+            textBoxPower1.Size = new Size(50, 23);
             textBoxPower1.TabIndex = 30;
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 7F);
-            label4.Location = new Point(314, 17);
+            label4.Location = new Point(200, 17);
             label4.Name = "label4";
             label4.Size = new Size(26, 12);
             label4.TabIndex = 29;
@@ -502,33 +555,33 @@ namespace Tool_test_adapter_power
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(373, 81);
+            label6.Location = new Point(272, 81);
             label6.Name = "label6";
             label6.Size = new Size(26, 15);
             label6.TabIndex = 28;
-            label6.Text = "mA";
+            label6.Text = "A";
             // 
             // textBoxCurrentMax1
             // 
-            textBoxCurrentMax1.Location = new Point(287, 77);
+            textBoxCurrentMax1.Location = new Point(220, 77);
             textBoxCurrentMax1.Name = "textBoxCurrentMax1";
-            textBoxCurrentMax1.Size = new Size(80, 23);
+            textBoxCurrentMax1.Size = new Size(50, 23);
             textBoxCurrentMax1.TabIndex = 27;
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(261, 80);
+            label8.Location = new Point(187, 80);
             label8.Name = "label8";
             label8.Size = new Size(26, 15);
             label8.TabIndex = 25;
-            label8.Text = "mA";
+            label8.Text = "A";
             // 
             // textBoxCurrentMin1
             // 
-            textBoxCurrentMin1.Location = new Point(179, 76);
+            textBoxCurrentMin1.Location = new Point(135, 76);
             textBoxCurrentMin1.Name = "textBoxCurrentMin1";
-            textBoxCurrentMin1.Size = new Size(80, 23);
+            textBoxCurrentMin1.Size = new Size(50, 23);
             textBoxCurrentMin1.TabIndex = 24;
             // 
             // label13
@@ -544,23 +597,23 @@ namespace Tool_test_adapter_power
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(150, 80);
+            label14.Location = new Point(102, 80);
             label14.Name = "label14";
             label14.Size = new Size(26, 15);
             label14.TabIndex = 22;
-            label14.Text = "mA";
+            label14.Text = "A";
             // 
             // textBoxCurrent1
             // 
-            textBoxCurrent1.Location = new Point(69, 76);
+            textBoxCurrent1.Location = new Point(50, 76);
             textBoxCurrent1.Name = "textBoxCurrent1";
-            textBoxCurrent1.Size = new Size(80, 23);
+            textBoxCurrent1.Size = new Size(50, 23);
             textBoxCurrent1.TabIndex = 21;
             // 
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(373, 37);
+            label12.Location = new Point(272, 37);
             label12.Name = "label12";
             label12.Size = new Size(14, 15);
             label12.TabIndex = 19;
@@ -568,16 +621,16 @@ namespace Tool_test_adapter_power
             // 
             // textBoxVoltageMax1
             // 
-            textBoxVoltageMax1.Location = new Point(287, 33);
+            textBoxVoltageMax1.Location = new Point(220, 33);
             textBoxVoltageMax1.Name = "textBoxVoltageMax1";
-            textBoxVoltageMax1.Size = new Size(80, 23);
+            textBoxVoltageMax1.Size = new Size(50, 23);
             textBoxVoltageMax1.TabIndex = 18;
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 7F);
-            label9.Location = new Point(207, 16);
+            label9.Location = new Point(115, 16);
             label9.Name = "label9";
             label9.Size = new Size(24, 12);
             label9.TabIndex = 17;
@@ -586,7 +639,7 @@ namespace Tool_test_adapter_power
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(261, 37);
+            label10.Location = new Point(187, 37);
             label10.Name = "label10";
             label10.Size = new Size(14, 15);
             label10.TabIndex = 16;
@@ -594,9 +647,9 @@ namespace Tool_test_adapter_power
             // 
             // textBoxVoltageMin1
             // 
-            textBoxVoltageMin1.Location = new Point(179, 32);
+            textBoxVoltageMin1.Location = new Point(135, 32);
             textBoxVoltageMin1.Name = "textBoxVoltageMin1";
-            textBoxVoltageMin1.Size = new Size(80, 23);
+            textBoxVoltageMin1.Size = new Size(50, 23);
             textBoxVoltageMin1.TabIndex = 15;
             // 
             // label5
@@ -612,7 +665,7 @@ namespace Tool_test_adapter_power
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(150, 37);
+            label3.Location = new Point(102, 37);
             label3.Name = "label3";
             label3.Size = new Size(14, 15);
             label3.TabIndex = 8;
@@ -620,9 +673,9 @@ namespace Tool_test_adapter_power
             // 
             // textBoxVoltage1
             // 
-            textBoxVoltage1.Location = new Point(69, 32);
+            textBoxVoltage1.Location = new Point(50, 32);
             textBoxVoltage1.Name = "textBoxVoltage1";
-            textBoxVoltage1.Size = new Size(80, 23);
+            textBoxVoltage1.Size = new Size(50, 23);
             textBoxVoltage1.TabIndex = 6;
             // 
             // groupBox3
@@ -633,16 +686,16 @@ namespace Tool_test_adapter_power
             groupBox3.Controls.Add(progressBarTest1);
             groupBox3.Controls.Add(btnRestartProcessTest1);
             groupBox3.Controls.Add(btnStartProcessTest1);
-            groupBox3.Location = new Point(15, 194);
+            groupBox3.Location = new Point(10, 194);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(400, 169);
+            groupBox3.Size = new Size(300, 169);
             groupBox3.TabIndex = 6;
             groupBox3.TabStop = false;
             groupBox3.Text = "Điều khiển quá trình test";
             // 
             // btnStopProcessTest1
             // 
-            btnStopProcessTest1.Location = new Point(261, 100);
+            btnStopProcessTest1.Location = new Point(225, 100);
             btnStopProcessTest1.Name = "btnStopProcessTest1";
             btnStopProcessTest1.Size = new Size(75, 25);
             btnStopProcessTest1.TabIndex = 42;
@@ -656,34 +709,34 @@ namespace Tool_test_adapter_power
             labelTestControlStatus1.BackColor = Color.LawnGreen;
             labelTestControlStatus1.BorderStyle = BorderStyle.Fixed3D;
             labelTestControlStatus1.Font = new Font("Tahoma", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelTestControlStatus1.Location = new Point(21, 35);
+            labelTestControlStatus1.Location = new Point(10, 35);
             labelTestControlStatus1.Name = "labelTestControlStatus1";
-            labelTestControlStatus1.Size = new Size(195, 50);
+            labelTestControlStatus1.Size = new Size(140, 50);
             labelTestControlStatus1.TabIndex = 13;
             labelTestControlStatus1.Text = "IDLE";
             labelTestControlStatus1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // textBoxIDAdapter1
             // 
-            textBoxIDAdapter1.Location = new Point(225, 35);
+            textBoxIDAdapter1.Location = new Point(160, 35);
             textBoxIDAdapter1.Multiline = true;
             textBoxIDAdapter1.Name = "textBoxIDAdapter1";
             textBoxIDAdapter1.ScrollBars = ScrollBars.Vertical;
-            textBoxIDAdapter1.Size = new Size(156, 50);
+            textBoxIDAdapter1.Size = new Size(130, 50);
             textBoxIDAdapter1.TabIndex = 12;
             // 
             // progressBarTest1
             // 
-            progressBarTest1.Location = new Point(21, 137);
+            progressBarTest1.Location = new Point(10, 137);
             progressBarTest1.Name = "progressBarTest1";
-            progressBarTest1.Size = new Size(360, 23);
+            progressBarTest1.Size = new Size(280, 23);
             progressBarTest1.TabIndex = 8;
             // 
             // btnRestartProcessTest1
             // 
-            btnRestartProcessTest1.Location = new Point(168, 100);
+            btnRestartProcessTest1.Location = new Point(110, 100);
             btnRestartProcessTest1.Name = "btnRestartProcessTest1";
-            btnRestartProcessTest1.Size = new Size(75, 25);
+            btnRestartProcessTest1.Size = new Size(100, 25);
             btnRestartProcessTest1.TabIndex = 11;
             btnRestartProcessTest1.Text = "Bắt đầu lại";
             btnRestartProcessTest1.UseVisualStyleBackColor = true;
@@ -691,7 +744,7 @@ namespace Tool_test_adapter_power
             // 
             // btnStartProcessTest1
             // 
-            btnStartProcessTest1.Location = new Point(74, 100);
+            btnStartProcessTest1.Location = new Point(20, 100);
             btnStartProcessTest1.Name = "btnStartProcessTest1";
             btnStartProcessTest1.Size = new Size(75, 25);
             btnStartProcessTest1.TabIndex = 9;
@@ -838,7 +891,7 @@ namespace Tool_test_adapter_power
             label11.Name = "label11";
             label11.Size = new Size(26, 15);
             label11.TabIndex = 48;
-            label11.Text = "mA";
+            label11.Text = "A";
             // 
             // label24
             // 
@@ -857,7 +910,7 @@ namespace Tool_test_adapter_power
             label15.Name = "label15";
             label15.Size = new Size(26, 15);
             label15.TabIndex = 46;
-            label15.Text = "mA";
+            label15.Text = "A";
             // 
             // label23
             // 
@@ -1095,9 +1148,10 @@ namespace Tool_test_adapter_power
             groupBox5.Controls.Add(groupBox13);
             groupBox5.Controls.Add(groupBox7);
             groupBox5.Controls.Add(groupBox8);
-            groupBox5.Location = new Point(457, 271);
+            groupBox5.Location = new Point(495, 271);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(430, 471);
+            groupBox5.Size = new Size(450, 471);
+            groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox5.TabIndex = 7;
             groupBox5.TabStop = false;
             groupBox5.Text = "NGUỒN SỐ 2";
@@ -1110,16 +1164,16 @@ namespace Tool_test_adapter_power
             groupBox13.Controls.Add(label63);
             groupBox13.Controls.Add(label64);
             groupBox13.Controls.Add(labelStatusOfSaveServer2);
-            groupBox13.Location = new Point(15, 369);
+            groupBox13.Location = new Point(10, 369);
             groupBox13.Name = "groupBox13";
-            groupBox13.Size = new Size(399, 76);
+            groupBox13.Size = new Size(420, 76);
             groupBox13.TabIndex = 8;
             groupBox13.TabStop = false;
             groupBox13.Text = "Qúa trình lưu trữ dữ liệu";
             // 
             // buttonRetrySaveData2
             // 
-            buttonRetrySaveData2.Location = new Point(34, 32);
+            buttonRetrySaveData2.Location = new Point(20, 32);
             buttonRetrySaveData2.Name = "buttonRetrySaveData2";
             buttonRetrySaveData2.Size = new Size(75, 25);
             buttonRetrySaveData2.TabIndex = 53;
@@ -1130,7 +1184,7 @@ namespace Tool_test_adapter_power
             // labelStatusOfSaveExcel2
             // 
             labelStatusOfSaveExcel2.AutoSize = true;
-            labelStatusOfSaveExcel2.Location = new Point(326, 32);
+            labelStatusOfSaveExcel2.Location = new Point(220, 32);
             labelStatusOfSaveExcel2.Name = "labelStatusOfSaveExcel2";
             labelStatusOfSaveExcel2.Size = new Size(30, 15);
             labelStatusOfSaveExcel2.TabIndex = 57;
@@ -1140,7 +1194,7 @@ namespace Tool_test_adapter_power
             // label62
             // 
             label62.AutoSize = true;
-            label62.Location = new Point(320, 12);
+            label62.Location = new Point(220, 12);
             label62.Name = "label62";
             label62.Size = new Size(39, 15);
             label62.TabIndex = 56;
@@ -1150,7 +1204,7 @@ namespace Tool_test_adapter_power
             // 
             label63.AutoSize = true;
             label63.Font = new Font("Segoe UI", 8.25F);
-            label63.Location = new Point(225, 33);
+            label63.Location = new Point(120, 33);
             label63.Name = "label63";
             label63.Size = new Size(90, 13);
             label63.TabIndex = 55;
@@ -1160,7 +1214,7 @@ namespace Tool_test_adapter_power
             // 
             label64.AutoSize = true;
             label64.Font = new Font("Segoe UI", 8.25F);
-            label64.Location = new Point(225, 56);
+            label64.Location = new Point(120, 56);
             label64.Name = "label64";
             label64.Size = new Size(95, 13);
             label64.TabIndex = 52;
@@ -1169,7 +1223,7 @@ namespace Tool_test_adapter_power
             // labelStatusOfSaveServer2
             // 
             labelStatusOfSaveServer2.AutoSize = true;
-            labelStatusOfSaveServer2.Location = new Point(326, 56);
+            labelStatusOfSaveServer2.Location = new Point(220, 56);
             labelStatusOfSaveServer2.Name = "labelStatusOfSaveServer2";
             labelStatusOfSaveServer2.Size = new Size(30, 15);
             labelStatusOfSaveServer2.TabIndex = 54;
@@ -1201,9 +1255,9 @@ namespace Tool_test_adapter_power
             groupBox7.Controls.Add(label43);
             groupBox7.Controls.Add(label44);
             groupBox7.Controls.Add(textBoxVoltage2);
-            groupBox7.Location = new Point(15, 31);
+            groupBox7.Location = new Point(10, 31);
             groupBox7.Name = "groupBox7";
-            groupBox7.Size = new Size(400, 159);
+            groupBox7.Size = new Size(420, 159);
             groupBox7.TabIndex = 0;
             groupBox7.TabStop = false;
             groupBox7.Text = "Thông số đo";
@@ -1211,7 +1265,7 @@ namespace Tool_test_adapter_power
             // label25
             // 
             label25.AutoSize = true;
-            label25.Location = new Point(373, 124);
+            label25.Location = new Point(272, 124);
             label25.Name = "label25";
             label25.Size = new Size(18, 15);
             label25.TabIndex = 37;
@@ -1219,15 +1273,15 @@ namespace Tool_test_adapter_power
             // 
             // textBoxPowerMax2
             // 
-            textBoxPowerMax2.Location = new Point(287, 121);
+            textBoxPowerMax2.Location = new Point(220, 121);
             textBoxPowerMax2.Name = "textBoxPowerMax2";
-            textBoxPowerMax2.Size = new Size(80, 23);
+            textBoxPowerMax2.Size = new Size(50, 23);
             textBoxPowerMax2.TabIndex = 36;
             // 
             // label26
             // 
             label26.AutoSize = true;
-            label26.Location = new Point(261, 125);
+            label26.Location = new Point(187, 125);
             label26.Name = "label26";
             label26.Size = new Size(18, 15);
             label26.TabIndex = 34;
@@ -1235,9 +1289,9 @@ namespace Tool_test_adapter_power
             // 
             // textBoxPowerMin2
             // 
-            textBoxPowerMin2.Location = new Point(179, 120);
+            textBoxPowerMin2.Location = new Point(135, 120);
             textBoxPowerMin2.Name = "textBoxPowerMin2";
-            textBoxPowerMin2.Size = new Size(80, 23);
+            textBoxPowerMin2.Size = new Size(50, 23);
             textBoxPowerMin2.TabIndex = 33;
             // 
             // label27
@@ -1253,7 +1307,7 @@ namespace Tool_test_adapter_power
             // label28
             // 
             label28.AutoSize = true;
-            label28.Location = new Point(150, 125);
+            label28.Location = new Point(102, 125);
             label28.Name = "label28";
             label28.Size = new Size(18, 15);
             label28.TabIndex = 31;
@@ -1261,16 +1315,16 @@ namespace Tool_test_adapter_power
             // 
             // textBoxPower2
             // 
-            textBoxPower2.Location = new Point(69, 120);
+            textBoxPower2.Location = new Point(50, 120);
             textBoxPower2.Name = "textBoxPower2";
-            textBoxPower2.Size = new Size(80, 23);
+            textBoxPower2.Size = new Size(50, 23);
             textBoxPower2.TabIndex = 30;
             // 
             // label29
             // 
             label29.AutoSize = true;
             label29.Font = new Font("Segoe UI", 7F);
-            label29.Location = new Point(314, 17);
+            label29.Location = new Point(200, 17);
             label29.Name = "label29";
             label29.Size = new Size(26, 12);
             label29.TabIndex = 29;
@@ -1279,33 +1333,33 @@ namespace Tool_test_adapter_power
             // label36
             // 
             label36.AutoSize = true;
-            label36.Location = new Point(373, 81);
+            label36.Location = new Point(272, 81);
             label36.Name = "label36";
             label36.Size = new Size(26, 15);
             label36.TabIndex = 28;
-            label36.Text = "mA";
+            label36.Text = "A";
             // 
             // textBoxCurrentMax2
             // 
-            textBoxCurrentMax2.Location = new Point(287, 77);
+            textBoxCurrentMax2.Location = new Point(220, 77);
             textBoxCurrentMax2.Name = "textBoxCurrentMax2";
-            textBoxCurrentMax2.Size = new Size(80, 23);
+            textBoxCurrentMax2.Size = new Size(50, 23);
             textBoxCurrentMax2.TabIndex = 27;
             // 
             // label37
             // 
             label37.AutoSize = true;
-            label37.Location = new Point(261, 80);
+            label37.Location = new Point(187, 80);
             label37.Name = "label37";
             label37.Size = new Size(26, 15);
             label37.TabIndex = 25;
-            label37.Text = "mA";
+            label37.Text = "A";
             // 
             // textBoxCurrentMin2
             // 
-            textBoxCurrentMin2.Location = new Point(179, 76);
+            textBoxCurrentMin2.Location = new Point(135, 76);
             textBoxCurrentMin2.Name = "textBoxCurrentMin2";
-            textBoxCurrentMin2.Size = new Size(80, 23);
+            textBoxCurrentMin2.Size = new Size(50, 23);
             textBoxCurrentMin2.TabIndex = 24;
             // 
             // label38
@@ -1321,23 +1375,23 @@ namespace Tool_test_adapter_power
             // label39
             // 
             label39.AutoSize = true;
-            label39.Location = new Point(150, 80);
+            label39.Location = new Point(102, 80);
             label39.Name = "label39";
             label39.Size = new Size(26, 15);
             label39.TabIndex = 22;
-            label39.Text = "mA";
+            label39.Text = "A";
             // 
             // textBoxCurrent2
             // 
-            textBoxCurrent2.Location = new Point(69, 76);
+            textBoxCurrent2.Location = new Point(50, 76);
             textBoxCurrent2.Name = "textBoxCurrent2";
-            textBoxCurrent2.Size = new Size(80, 23);
+            textBoxCurrent2.Size = new Size(50, 23);
             textBoxCurrent2.TabIndex = 21;
             // 
             // label40
             // 
             label40.AutoSize = true;
-            label40.Location = new Point(373, 37);
+            label40.Location = new Point(272, 37);
             label40.Name = "label40";
             label40.Size = new Size(14, 15);
             label40.TabIndex = 19;
@@ -1345,16 +1399,16 @@ namespace Tool_test_adapter_power
             // 
             // textBoxVoltageMax2
             // 
-            textBoxVoltageMax2.Location = new Point(287, 33);
+            textBoxVoltageMax2.Location = new Point(220, 33);
             textBoxVoltageMax2.Name = "textBoxVoltageMax2";
-            textBoxVoltageMax2.Size = new Size(80, 23);
+            textBoxVoltageMax2.Size = new Size(50, 23);
             textBoxVoltageMax2.TabIndex = 18;
             // 
             // label41
             // 
             label41.AutoSize = true;
             label41.Font = new Font("Segoe UI", 7F);
-            label41.Location = new Point(207, 16);
+            label41.Location = new Point(115, 16);
             label41.Name = "label41";
             label41.Size = new Size(24, 12);
             label41.TabIndex = 17;
@@ -1363,7 +1417,7 @@ namespace Tool_test_adapter_power
             // label42
             // 
             label42.AutoSize = true;
-            label42.Location = new Point(261, 37);
+            label42.Location = new Point(187, 37);
             label42.Name = "label42";
             label42.Size = new Size(14, 15);
             label42.TabIndex = 16;
@@ -1371,9 +1425,9 @@ namespace Tool_test_adapter_power
             // 
             // textBoxVoltageMin2
             // 
-            textBoxVoltageMin2.Location = new Point(179, 32);
+            textBoxVoltageMin2.Location = new Point(135, 32);
             textBoxVoltageMin2.Name = "textBoxVoltageMin2";
-            textBoxVoltageMin2.Size = new Size(80, 23);
+            textBoxVoltageMin2.Size = new Size(50, 23);
             textBoxVoltageMin2.TabIndex = 15;
             // 
             // label43
@@ -1389,7 +1443,7 @@ namespace Tool_test_adapter_power
             // label44
             // 
             label44.AutoSize = true;
-            label44.Location = new Point(150, 37);
+            label44.Location = new Point(102, 37);
             label44.Name = "label44";
             label44.Size = new Size(14, 15);
             label44.TabIndex = 8;
@@ -1397,9 +1451,9 @@ namespace Tool_test_adapter_power
             // 
             // textBoxVoltage2
             // 
-            textBoxVoltage2.Location = new Point(69, 32);
+            textBoxVoltage2.Location = new Point(50, 32);
             textBoxVoltage2.Name = "textBoxVoltage2";
-            textBoxVoltage2.Size = new Size(80, 23);
+            textBoxVoltage2.Size = new Size(50, 23);
             textBoxVoltage2.TabIndex = 6;
             // 
             // groupBox8
@@ -1410,16 +1464,16 @@ namespace Tool_test_adapter_power
             groupBox8.Controls.Add(progressBarTest2);
             groupBox8.Controls.Add(btnRestartProcessTest2);
             groupBox8.Controls.Add(btnStartProcessTest2);
-            groupBox8.Location = new Point(15, 194);
+            groupBox8.Location = new Point(10, 194);
             groupBox8.Name = "groupBox8";
-            groupBox8.Size = new Size(400, 169);
+            groupBox8.Size = new Size(420, 169);
             groupBox8.TabIndex = 6;
             groupBox8.TabStop = false;
             groupBox8.Text = "Điều khiển quá trình test";
             // 
             // btnStopProcessTest2
             // 
-            btnStopProcessTest2.Location = new Point(261, 100);
+            btnStopProcessTest2.Location = new Point(225, 100);
             btnStopProcessTest2.Name = "btnStopProcessTest2";
             btnStopProcessTest2.Size = new Size(75, 25);
             btnStopProcessTest2.TabIndex = 42;
@@ -1433,34 +1487,34 @@ namespace Tool_test_adapter_power
             labelTestControlStatus2.BackColor = Color.LawnGreen;
             labelTestControlStatus2.BorderStyle = BorderStyle.Fixed3D;
             labelTestControlStatus2.Font = new Font("Tahoma", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelTestControlStatus2.Location = new Point(21, 35);
+            labelTestControlStatus2.Location = new Point(10, 35);
             labelTestControlStatus2.Name = "labelTestControlStatus2";
-            labelTestControlStatus2.Size = new Size(195, 50);
+            labelTestControlStatus2.Size = new Size(140, 50);
             labelTestControlStatus2.TabIndex = 13;
             labelTestControlStatus2.Text = "IDLE";
             labelTestControlStatus2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // textBoxIDAdapter2
             // 
-            textBoxIDAdapter2.Location = new Point(225, 35);
+            textBoxIDAdapter2.Location = new Point(160, 35);
             textBoxIDAdapter2.Multiline = true;
             textBoxIDAdapter2.Name = "textBoxIDAdapter2";
             textBoxIDAdapter2.ScrollBars = ScrollBars.Vertical;
-            textBoxIDAdapter2.Size = new Size(156, 50);
+            textBoxIDAdapter2.Size = new Size(130, 50);
             textBoxIDAdapter2.TabIndex = 12;
             // 
             // progressBarTest2
             // 
-            progressBarTest2.Location = new Point(21, 137);
+            progressBarTest2.Location = new Point(10, 137);
             progressBarTest2.Name = "progressBarTest2";
-            progressBarTest2.Size = new Size(360, 23);
+            progressBarTest2.Size = new Size(280, 23);
             progressBarTest2.TabIndex = 8;
             // 
             // btnRestartProcessTest2
             // 
-            btnRestartProcessTest2.Location = new Point(168, 100);
+            btnRestartProcessTest2.Location = new Point(110, 100);
             btnRestartProcessTest2.Name = "btnRestartProcessTest2";
-            btnRestartProcessTest2.Size = new Size(75, 25);
+            btnRestartProcessTest2.Size = new Size(100, 25);
             btnRestartProcessTest2.TabIndex = 11;
             btnRestartProcessTest2.Text = "Bắt đầu lại";
             btnRestartProcessTest2.UseVisualStyleBackColor = true;
@@ -1468,7 +1522,7 @@ namespace Tool_test_adapter_power
             // 
             // btnStartProcessTest2
             // 
-            btnStartProcessTest2.Location = new Point(74, 100);
+            btnStartProcessTest2.Location = new Point(20, 100);
             btnStartProcessTest2.Name = "btnStartProcessTest2";
             btnStartProcessTest2.Size = new Size(75, 25);
             btnStartProcessTest2.TabIndex = 9;
@@ -1482,9 +1536,10 @@ namespace Tool_test_adapter_power
             groupBox9.Controls.Add(groupBox14);
             groupBox9.Controls.Add(groupBox10);
             groupBox9.Controls.Add(groupBox11);
-            groupBox9.Location = new Point(902, 271);
+            groupBox9.Location = new Point(975, 271);
             groupBox9.Name = "groupBox9";
-            groupBox9.Size = new Size(430, 471);
+            groupBox9.Size = new Size(450, 471);
+            groupBox9.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox9.TabIndex = 8;
             groupBox9.TabStop = false;
             groupBox9.Text = "NGUỒN SỐ 3";
@@ -1497,16 +1552,16 @@ namespace Tool_test_adapter_power
             groupBox14.Controls.Add(labelStatusOfSaveServer3);
             groupBox14.Controls.Add(label71);
             groupBox14.Controls.Add(label73);
-            groupBox14.Location = new Point(15, 369);
+            groupBox14.Location = new Point(10, 369);
             groupBox14.Name = "groupBox14";
-            groupBox14.Size = new Size(399, 76);
+            groupBox14.Size = new Size(300, 76);
             groupBox14.TabIndex = 8;
             groupBox14.TabStop = false;
             groupBox14.Text = "Qúa trình lưu trữ dữ liệu";
             // 
             // buttonRetrySaveData3
             // 
-            buttonRetrySaveData3.Location = new Point(39, 32);
+            buttonRetrySaveData3.Location = new Point(20, 32);
             buttonRetrySaveData3.Name = "buttonRetrySaveData3";
             buttonRetrySaveData3.Size = new Size(75, 25);
             buttonRetrySaveData3.TabIndex = 59;
@@ -1518,7 +1573,7 @@ namespace Tool_test_adapter_power
             // 
             label72.AutoSize = true;
             label72.Font = new Font("Segoe UI", 8.25F);
-            label72.Location = new Point(225, 31);
+            label72.Location = new Point(120, 31);
             label72.Name = "label72";
             label72.Size = new Size(90, 13);
             label72.TabIndex = 61;
@@ -1527,7 +1582,7 @@ namespace Tool_test_adapter_power
             // labelStatusOfSaveExcel3
             // 
             labelStatusOfSaveExcel3.AutoSize = true;
-            labelStatusOfSaveExcel3.Location = new Point(326, 30);
+            labelStatusOfSaveExcel3.Location = new Point(220, 30);
             labelStatusOfSaveExcel3.Name = "labelStatusOfSaveExcel3";
             labelStatusOfSaveExcel3.Size = new Size(30, 15);
             labelStatusOfSaveExcel3.TabIndex = 63;
@@ -1537,7 +1592,7 @@ namespace Tool_test_adapter_power
             // labelStatusOfSaveServer3
             // 
             labelStatusOfSaveServer3.AutoSize = true;
-            labelStatusOfSaveServer3.Location = new Point(326, 54);
+            labelStatusOfSaveServer3.Location = new Point(220, 54);
             labelStatusOfSaveServer3.Name = "labelStatusOfSaveServer3";
             labelStatusOfSaveServer3.Size = new Size(30, 15);
             labelStatusOfSaveServer3.TabIndex = 60;
@@ -1547,7 +1602,7 @@ namespace Tool_test_adapter_power
             // label71
             // 
             label71.AutoSize = true;
-            label71.Location = new Point(320, 10);
+            label71.Location = new Point(220, 10);
             label71.Name = "label71";
             label71.Size = new Size(39, 15);
             label71.TabIndex = 62;
@@ -1557,7 +1612,7 @@ namespace Tool_test_adapter_power
             // 
             label73.AutoSize = true;
             label73.Font = new Font("Segoe UI", 8.25F);
-            label73.Location = new Point(225, 54);
+            label73.Location = new Point(120, 54);
             label73.Name = "label73";
             label73.Size = new Size(95, 13);
             label73.TabIndex = 58;
@@ -1588,9 +1643,9 @@ namespace Tool_test_adapter_power
             groupBox10.Controls.Add(label58);
             groupBox10.Controls.Add(label59);
             groupBox10.Controls.Add(textBoxVoltage3);
-            groupBox10.Location = new Point(15, 31);
+            groupBox10.Location = new Point(10, 31);
             groupBox10.Name = "groupBox10";
-            groupBox10.Size = new Size(400, 159);
+            groupBox10.Size = new Size(300, 159);
             groupBox10.TabIndex = 0;
             groupBox10.TabStop = false;
             groupBox10.Text = "Thông số đo";
@@ -1598,7 +1653,7 @@ namespace Tool_test_adapter_power
             // label46
             // 
             label46.AutoSize = true;
-            label46.Location = new Point(373, 124);
+            label46.Location = new Point(272, 124);
             label46.Name = "label46";
             label46.Size = new Size(18, 15);
             label46.TabIndex = 37;
@@ -1606,15 +1661,15 @@ namespace Tool_test_adapter_power
             // 
             // textBoxPowerMax3
             // 
-            textBoxPowerMax3.Location = new Point(287, 121);
+            textBoxPowerMax3.Location = new Point(220, 121);
             textBoxPowerMax3.Name = "textBoxPowerMax3";
-            textBoxPowerMax3.Size = new Size(80, 23);
+            textBoxPowerMax3.Size = new Size(50, 23);
             textBoxPowerMax3.TabIndex = 36;
             // 
             // label47
             // 
             label47.AutoSize = true;
-            label47.Location = new Point(261, 125);
+            label47.Location = new Point(187, 125);
             label47.Name = "label47";
             label47.Size = new Size(18, 15);
             label47.TabIndex = 34;
@@ -1622,9 +1677,9 @@ namespace Tool_test_adapter_power
             // 
             // textBoxPowerMin3
             // 
-            textBoxPowerMin3.Location = new Point(179, 120);
+            textBoxPowerMin3.Location = new Point(135, 120);
             textBoxPowerMin3.Name = "textBoxPowerMin3";
-            textBoxPowerMin3.Size = new Size(80, 23);
+            textBoxPowerMin3.Size = new Size(50, 23);
             textBoxPowerMin3.TabIndex = 33;
             // 
             // label48
@@ -1640,7 +1695,7 @@ namespace Tool_test_adapter_power
             // label49
             // 
             label49.AutoSize = true;
-            label49.Location = new Point(150, 125);
+            label49.Location = new Point(102, 125);
             label49.Name = "label49";
             label49.Size = new Size(18, 15);
             label49.TabIndex = 31;
@@ -1648,16 +1703,16 @@ namespace Tool_test_adapter_power
             // 
             // textBoxPower3
             // 
-            textBoxPower3.Location = new Point(69, 120);
+            textBoxPower3.Location = new Point(50, 120);
             textBoxPower3.Name = "textBoxPower3";
-            textBoxPower3.Size = new Size(80, 23);
+            textBoxPower3.Size = new Size(50, 23);
             textBoxPower3.TabIndex = 30;
             // 
             // label50
             // 
             label50.AutoSize = true;
             label50.Font = new Font("Segoe UI", 7F);
-            label50.Location = new Point(314, 17);
+            label50.Location = new Point(200, 17);
             label50.Name = "label50";
             label50.Size = new Size(26, 12);
             label50.TabIndex = 29;
@@ -1666,33 +1721,33 @@ namespace Tool_test_adapter_power
             // label51
             // 
             label51.AutoSize = true;
-            label51.Location = new Point(373, 81);
+            label51.Location = new Point(272, 81);
             label51.Name = "label51";
             label51.Size = new Size(26, 15);
             label51.TabIndex = 28;
-            label51.Text = "mA";
+            label51.Text = "A";
             // 
             // textBoxCurrentMax3
             // 
-            textBoxCurrentMax3.Location = new Point(287, 77);
+            textBoxCurrentMax3.Location = new Point(220, 77);
             textBoxCurrentMax3.Name = "textBoxCurrentMax3";
-            textBoxCurrentMax3.Size = new Size(80, 23);
+            textBoxCurrentMax3.Size = new Size(50, 23);
             textBoxCurrentMax3.TabIndex = 27;
             // 
             // label52
             // 
             label52.AutoSize = true;
-            label52.Location = new Point(261, 80);
+            label52.Location = new Point(187, 80);
             label52.Name = "label52";
             label52.Size = new Size(26, 15);
             label52.TabIndex = 25;
-            label52.Text = "mA";
+            label52.Text = "A";
             // 
             // textBoxCurrentMin3
             // 
-            textBoxCurrentMin3.Location = new Point(179, 76);
+            textBoxCurrentMin3.Location = new Point(135, 76);
             textBoxCurrentMin3.Name = "textBoxCurrentMin3";
-            textBoxCurrentMin3.Size = new Size(80, 23);
+            textBoxCurrentMin3.Size = new Size(50, 23);
             textBoxCurrentMin3.TabIndex = 24;
             // 
             // label53
@@ -1708,23 +1763,23 @@ namespace Tool_test_adapter_power
             // label54
             // 
             label54.AutoSize = true;
-            label54.Location = new Point(150, 80);
+            label54.Location = new Point(102, 80);
             label54.Name = "label54";
             label54.Size = new Size(26, 15);
             label54.TabIndex = 22;
-            label54.Text = "mA";
+            label54.Text = "A";
             // 
             // textBoxCurrent3
             // 
-            textBoxCurrent3.Location = new Point(69, 76);
+            textBoxCurrent3.Location = new Point(50, 76);
             textBoxCurrent3.Name = "textBoxCurrent3";
-            textBoxCurrent3.Size = new Size(80, 23);
+            textBoxCurrent3.Size = new Size(50, 23);
             textBoxCurrent3.TabIndex = 21;
             // 
             // label55
             // 
             label55.AutoSize = true;
-            label55.Location = new Point(373, 37);
+            label55.Location = new Point(272, 37);
             label55.Name = "label55";
             label55.Size = new Size(14, 15);
             label55.TabIndex = 19;
@@ -1732,16 +1787,16 @@ namespace Tool_test_adapter_power
             // 
             // textBoxVoltageMax3
             // 
-            textBoxVoltageMax3.Location = new Point(287, 33);
+            textBoxVoltageMax3.Location = new Point(220, 33);
             textBoxVoltageMax3.Name = "textBoxVoltageMax3";
-            textBoxVoltageMax3.Size = new Size(80, 23);
+            textBoxVoltageMax3.Size = new Size(50, 23);
             textBoxVoltageMax3.TabIndex = 18;
             // 
             // label56
             // 
             label56.AutoSize = true;
             label56.Font = new Font("Segoe UI", 7F);
-            label56.Location = new Point(207, 16);
+            label56.Location = new Point(115, 16);
             label56.Name = "label56";
             label56.Size = new Size(24, 12);
             label56.TabIndex = 17;
@@ -1750,7 +1805,7 @@ namespace Tool_test_adapter_power
             // label57
             // 
             label57.AutoSize = true;
-            label57.Location = new Point(261, 37);
+            label57.Location = new Point(187, 37);
             label57.Name = "label57";
             label57.Size = new Size(14, 15);
             label57.TabIndex = 16;
@@ -1758,9 +1813,9 @@ namespace Tool_test_adapter_power
             // 
             // textBoxVoltageMin3
             // 
-            textBoxVoltageMin3.Location = new Point(179, 32);
+            textBoxVoltageMin3.Location = new Point(135, 32);
             textBoxVoltageMin3.Name = "textBoxVoltageMin3";
-            textBoxVoltageMin3.Size = new Size(80, 23);
+            textBoxVoltageMin3.Size = new Size(50, 23);
             textBoxVoltageMin3.TabIndex = 15;
             // 
             // label58
@@ -1776,7 +1831,7 @@ namespace Tool_test_adapter_power
             // label59
             // 
             label59.AutoSize = true;
-            label59.Location = new Point(150, 37);
+            label59.Location = new Point(102, 37);
             label59.Name = "label59";
             label59.Size = new Size(14, 15);
             label59.TabIndex = 8;
@@ -1784,9 +1839,9 @@ namespace Tool_test_adapter_power
             // 
             // textBoxVoltage3
             // 
-            textBoxVoltage3.Location = new Point(69, 32);
+            textBoxVoltage3.Location = new Point(50, 32);
             textBoxVoltage3.Name = "textBoxVoltage3";
-            textBoxVoltage3.Size = new Size(80, 23);
+            textBoxVoltage3.Size = new Size(50, 23);
             textBoxVoltage3.TabIndex = 6;
             // 
             // groupBox11
@@ -1797,16 +1852,16 @@ namespace Tool_test_adapter_power
             groupBox11.Controls.Add(progressBarTest3);
             groupBox11.Controls.Add(btnRestartProcessTest3);
             groupBox11.Controls.Add(btnStartProcessTest3);
-            groupBox11.Location = new Point(15, 194);
+            groupBox11.Location = new Point(10, 194);
             groupBox11.Name = "groupBox11";
-            groupBox11.Size = new Size(400, 169);
+            groupBox11.Size = new Size(300, 169);
             groupBox11.TabIndex = 6;
             groupBox11.TabStop = false;
             groupBox11.Text = "Điều khiển quá trình test";
             // 
             // btnStopProcessTest3
             // 
-            btnStopProcessTest3.Location = new Point(261, 100);
+            btnStopProcessTest3.Location = new Point(225, 100);
             btnStopProcessTest3.Name = "btnStopProcessTest3";
             btnStopProcessTest3.Size = new Size(75, 25);
             btnStopProcessTest3.TabIndex = 42;
@@ -1820,34 +1875,34 @@ namespace Tool_test_adapter_power
             labelTestControlStatus3.BackColor = Color.LawnGreen;
             labelTestControlStatus3.BorderStyle = BorderStyle.Fixed3D;
             labelTestControlStatus3.Font = new Font("Tahoma", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelTestControlStatus3.Location = new Point(21, 35);
+            labelTestControlStatus3.Location = new Point(10, 35);
             labelTestControlStatus3.Name = "labelTestControlStatus3";
-            labelTestControlStatus3.Size = new Size(195, 50);
+            labelTestControlStatus3.Size = new Size(140, 50);
             labelTestControlStatus3.TabIndex = 13;
             labelTestControlStatus3.Text = "IDLE";
             labelTestControlStatus3.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // textBoxIDAdapter3
             // 
-            textBoxIDAdapter3.Location = new Point(225, 35);
+            textBoxIDAdapter3.Location = new Point(160, 35);
             textBoxIDAdapter3.Multiline = true;
             textBoxIDAdapter3.Name = "textBoxIDAdapter3";
             textBoxIDAdapter3.ScrollBars = ScrollBars.Vertical;
-            textBoxIDAdapter3.Size = new Size(156, 50);
+            textBoxIDAdapter3.Size = new Size(130, 50);
             textBoxIDAdapter3.TabIndex = 12;
             // 
             // progressBarTest3
             // 
-            progressBarTest3.Location = new Point(21, 137);
+            progressBarTest3.Location = new Point(10, 137);
             progressBarTest3.Name = "progressBarTest3";
-            progressBarTest3.Size = new Size(360, 23);
+            progressBarTest3.Size = new Size(280, 23);
             progressBarTest3.TabIndex = 8;
             // 
             // btnRestartProcessTest3
             // 
-            btnRestartProcessTest3.Location = new Point(168, 100);
+            btnRestartProcessTest3.Location = new Point(110, 100);
             btnRestartProcessTest3.Name = "btnRestartProcessTest3";
-            btnRestartProcessTest3.Size = new Size(75, 25);
+            btnRestartProcessTest3.Size = new Size(100, 25);
             btnRestartProcessTest3.TabIndex = 11;
             btnRestartProcessTest3.Text = "Bắt đầu lại";
             btnRestartProcessTest3.UseVisualStyleBackColor = true;
@@ -1855,16 +1910,451 @@ namespace Tool_test_adapter_power
             // 
             // btnStartProcessTest3
             // 
-            btnStartProcessTest3.Location = new Point(74, 100);
+            btnStartProcessTest3.Location = new Point(20, 100);
             btnStartProcessTest3.Name = "btnStartProcessTest3";
             btnStartProcessTest3.Size = new Size(75, 25);
             btnStartProcessTest3.TabIndex = 9;
             btnStartProcessTest3.Text = "Bắt đầu";
             btnStartProcessTest3.UseVisualStyleBackColor = true;
             btnStartProcessTest3.Click += btnStartProcessTest3_Click;
+
+            // 
+            // groupBoxAdapter4
+            // 
+            groupBoxAdapter4.BackColor = SystemColors.ButtonHighlight;
+            groupBoxAdapter4.Controls.Add(groupBoxSave4);
+            groupBoxAdapter4.Controls.Add(groupBoxMeasure4);
+            groupBoxAdapter4.Controls.Add(groupBoxControl4);
+            groupBoxAdapter4.Location = new Point(1455, 271);
+            groupBoxAdapter4.Name = "groupBoxAdapter4";
+            groupBoxAdapter4.Size = new Size(450, 471);
+            groupBoxAdapter4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBoxAdapter4.TabIndex = 9;
+            groupBoxAdapter4.TabStop = false;
+            groupBoxAdapter4.Text = "NGUỒN SỐ 4";
+            // 
+            // groupBoxSave4
+            // 
+            groupBoxSave4.Controls.Add(buttonRetrySaveData4);
+            groupBoxSave4.Controls.Add(labelStatusOfSaveExcel4);
+            groupBoxSave4.Controls.Add(labelStatus4);
+            groupBoxSave4.Controls.Add(labelUploadExcel4);
+            groupBoxSave4.Controls.Add(labelUploadServer4);
+            groupBoxSave4.Controls.Add(labelStatusOfSaveServer4);
+            groupBoxSave4.Location = new Point(10, 369);
+            groupBoxSave4.Name = "groupBoxSave4";
+            groupBoxSave4.Size = new Size(300, 76);
+            groupBoxSave4.TabIndex = 8;
+            groupBoxSave4.TabStop = false;
+            groupBoxSave4.Text = "Qúa trình lưu trữ dữ liệu";
+            // 
+            // buttonRetrySaveData4
+            // 
+            buttonRetrySaveData4.Location = new Point(20, 32);
+            buttonRetrySaveData4.Name = "buttonRetrySaveData4";
+            buttonRetrySaveData4.Size = new Size(75, 25);
+            buttonRetrySaveData4.TabIndex = 59;
+            buttonRetrySaveData4.Text = "Thử lại";
+            buttonRetrySaveData4.UseVisualStyleBackColor = true;
+            buttonRetrySaveData4.Click += buttonRetrySaveData4_Click;
+            // 
+            // labelStatusOfSaveExcel4
+            // 
+            labelStatusOfSaveExcel4.AutoSize = true;
+            labelStatusOfSaveExcel4.Location = new Point(220, 30);
+            labelStatusOfSaveExcel4.Name = "labelStatusOfSaveExcel4";
+            labelStatusOfSaveExcel4.Size = new Size(30, 15);
+            labelStatusOfSaveExcel4.TabIndex = 63;
+            labelStatusOfSaveExcel4.Text = "IDLE";
+            labelStatusOfSaveExcel4.TextAlign = ContentAlignment.TopRight;
+            // 
+            // labelStatus4
+            // 
+            labelStatus4.AutoSize = true;
+            labelStatus4.Location = new Point(220, 10);
+            labelStatus4.Name = "labelStatus4";
+            labelStatus4.Size = new Size(39, 15);
+            labelStatus4.TabIndex = 62;
+            labelStatus4.Text = "Status";
+            // 
+            // labelUploadExcel4
+            // 
+            labelUploadExcel4.AutoSize = true;
+            labelUploadExcel4.Font = new Font("Segoe UI", 8.25F);
+            labelUploadExcel4.Location = new Point(120, 31);
+            labelUploadExcel4.Name = "labelUploadExcel4";
+            labelUploadExcel4.Size = new Size(90, 13);
+            labelUploadExcel4.TabIndex = 61;
+            labelUploadExcel4.Text = "Upload to excel:";
+            // 
+            // labelUploadServer4
+            // 
+            labelUploadServer4.AutoSize = true;
+            labelUploadServer4.Font = new Font("Segoe UI", 8.25F);
+            labelUploadServer4.Location = new Point(120, 54);
+            labelUploadServer4.Name = "labelUploadServer4";
+            labelUploadServer4.Size = new Size(95, 13);
+            labelUploadServer4.TabIndex = 58;
+            labelUploadServer4.Text = "Upload to server:";
+            // 
+            // labelStatusOfSaveServer4
+            // 
+            labelStatusOfSaveServer4.AutoSize = true;
+            labelStatusOfSaveServer4.Location = new Point(220, 54);
+            labelStatusOfSaveServer4.Name = "labelStatusOfSaveServer4";
+            labelStatusOfSaveServer4.Size = new Size(30, 15);
+            labelStatusOfSaveServer4.TabIndex = 60;
+            labelStatusOfSaveServer4.Text = "IDLE";
+            labelStatusOfSaveServer4.TextAlign = ContentAlignment.TopRight;
+            // 
+            // groupBoxMeasure4
+            // 
+            groupBoxMeasure4.Controls.Add(labelPowerUnit4a);
+            groupBoxMeasure4.Controls.Add(textBoxPowerMax4);
+            groupBoxMeasure4.Controls.Add(labelPowerUnit4b);
+            groupBoxMeasure4.Controls.Add(textBoxPowerMin4);
+            groupBoxMeasure4.Controls.Add(labelPowerTitle4);
+            groupBoxMeasure4.Controls.Add(labelPowerUnit4c);
+            groupBoxMeasure4.Controls.Add(textBoxPower4);
+            groupBoxMeasure4.Controls.Add(labelMax4c);
+            groupBoxMeasure4.Controls.Add(labelCurrentUnit4a);
+            groupBoxMeasure4.Controls.Add(textBoxCurrentMax4);
+            groupBoxMeasure4.Controls.Add(labelCurrentUnit4b);
+            groupBoxMeasure4.Controls.Add(textBoxCurrentMin4);
+            groupBoxMeasure4.Controls.Add(labelCurrentTitle4);
+            groupBoxMeasure4.Controls.Add(labelCurrentUnit4c);
+            groupBoxMeasure4.Controls.Add(textBoxCurrent4);
+            groupBoxMeasure4.Controls.Add(labelVoltageUnit4a);
+            groupBoxMeasure4.Controls.Add(textBoxVoltageMax4);
+            groupBoxMeasure4.Controls.Add(labelMin4a);
+            groupBoxMeasure4.Controls.Add(labelVoltageUnit4b);
+            groupBoxMeasure4.Controls.Add(textBoxVoltageMin4);
+            groupBoxMeasure4.Controls.Add(labelVoltageTitle4);
+            groupBoxMeasure4.Controls.Add(labelVoltageUnit4c);
+            groupBoxMeasure4.Controls.Add(textBoxVoltage4);
+            groupBoxMeasure4.Controls.Add(labelMax4a);
+            groupBoxMeasure4.Controls.Add(labelMin4b);
+            groupBoxMeasure4.Controls.Add(labelMax4b);
+            groupBoxMeasure4.Controls.Add(labelMin4c);
+            groupBoxMeasure4.Location = new Point(10, 31);
+            groupBoxMeasure4.Name = "groupBoxMeasure4";
+            groupBoxMeasure4.Size = new Size(300, 159);
+            groupBoxMeasure4.TabIndex = 0;
+            groupBoxMeasure4.TabStop = false;
+            groupBoxMeasure4.Text = "Thông số đo";
+            // 
+            // labelPowerUnit4a
+            // 
+            labelPowerUnit4a.AutoSize = true;
+            labelPowerUnit4a.Location = new Point(272, 124);
+            labelPowerUnit4a.Name = "labelPowerUnit4a";
+            labelPowerUnit4a.Size = new Size(18, 15);
+            labelPowerUnit4a.TabIndex = 37;
+            labelPowerUnit4a.Text = "W";
+            // 
+            // textBoxPowerMax4
+            // 
+            textBoxPowerMax4.Location = new Point(220, 121);
+            textBoxPowerMax4.Name = "textBoxPowerMax4";
+            textBoxPowerMax4.Size = new Size(50, 23);
+            textBoxPowerMax4.TabIndex = 36;
+            // 
+            // labelPowerUnit4b
+            // 
+            labelPowerUnit4b.AutoSize = true;
+            labelPowerUnit4b.Location = new Point(187, 125);
+            labelPowerUnit4b.Name = "labelPowerUnit4b";
+            labelPowerUnit4b.Size = new Size(18, 15);
+            labelPowerUnit4b.TabIndex = 34;
+            labelPowerUnit4b.Text = "W";
+            // 
+            // textBoxPowerMin4
+            // 
+            textBoxPowerMin4.Location = new Point(135, 120);
+            textBoxPowerMin4.Name = "textBoxPowerMin4";
+            textBoxPowerMin4.Size = new Size(50, 23);
+            textBoxPowerMin4.TabIndex = 33;
+            // 
+            // labelPowerTitle4
+            // 
+            labelPowerTitle4.AutoSize = true;
+            labelPowerTitle4.Font = new Font("Segoe UI", 8.25F);
+            labelPowerTitle4.Location = new Point(3, 124);
+            labelPowerTitle4.Name = "labelPowerTitle4";
+            labelPowerTitle4.Size = new Size(60, 13);
+            labelPowerTitle4.TabIndex = 32;
+            labelPowerTitle4.Text = "Công suất";
+            // 
+            // labelPowerUnit4c
+            // 
+            labelPowerUnit4c.AutoSize = true;
+            labelPowerUnit4c.Location = new Point(102, 125);
+            labelPowerUnit4c.Name = "labelPowerUnit4c";
+            labelPowerUnit4c.Size = new Size(18, 15);
+            labelPowerUnit4c.TabIndex = 31;
+            labelPowerUnit4c.Text = "W";
+            // 
+            // textBoxPower4
+            // 
+            textBoxPower4.Location = new Point(50, 120);
+            textBoxPower4.Name = "textBoxPower4";
+            textBoxPower4.Size = new Size(50, 23);
+            textBoxPower4.TabIndex = 30;
+            // 
+            // labelMax4c
+            // 
+            labelMax4c.AutoSize = true;
+            labelMax4c.Font = new Font("Segoe UI", 7F);
+            labelMax4c.Location = new Point(200, 17);
+            labelMax4c.Name = "labelMax4c";
+            labelMax4c.Size = new Size(26, 12);
+            labelMax4c.TabIndex = 29;
+            labelMax4c.Text = "MAX";
+            // 
+            // labelCurrentUnit4a
+            // 
+            labelCurrentUnit4a.AutoSize = true;
+            labelCurrentUnit4a.Location = new Point(272, 81);
+            labelCurrentUnit4a.Name = "labelCurrentUnit4a";
+            labelCurrentUnit4a.Size = new Size(26, 15);
+            labelCurrentUnit4a.TabIndex = 28;
+            labelCurrentUnit4a.Text = "A";
+            // 
+            // textBoxCurrentMax4
+            // 
+            textBoxCurrentMax4.Location = new Point(220, 77);
+            textBoxCurrentMax4.Name = "textBoxCurrentMax4";
+            textBoxCurrentMax4.Size = new Size(50, 23);
+            textBoxCurrentMax4.TabIndex = 27;
+            // 
+            // labelCurrentUnit4b
+            // 
+            labelCurrentUnit4b.AutoSize = true;
+            labelCurrentUnit4b.Location = new Point(187, 80);
+            labelCurrentUnit4b.Name = "labelCurrentUnit4b";
+            labelCurrentUnit4b.Size = new Size(26, 15);
+            labelCurrentUnit4b.TabIndex = 25;
+            labelCurrentUnit4b.Text = "A";
+            // 
+            // textBoxCurrentMin4
+            // 
+            textBoxCurrentMin4.Location = new Point(135, 76);
+            textBoxCurrentMin4.Name = "textBoxCurrentMin4";
+            textBoxCurrentMin4.Size = new Size(50, 23);
+            textBoxCurrentMin4.TabIndex = 24;
+            // 
+            // labelCurrentTitle4
+            // 
+            labelCurrentTitle4.AutoSize = true;
+            labelCurrentTitle4.Font = new Font("Segoe UI", 8.25F);
+            labelCurrentTitle4.Location = new Point(3, 80);
+            labelCurrentTitle4.Name = "labelCurrentTitle4";
+            labelCurrentTitle4.Size = new Size(62, 13);
+            labelCurrentTitle4.TabIndex = 23;
+            labelCurrentTitle4.Text = "Dòng điện";
+            // 
+            // labelCurrentUnit4c
+            // 
+            labelCurrentUnit4c.AutoSize = true;
+            labelCurrentUnit4c.Location = new Point(102, 80);
+            labelCurrentUnit4c.Name = "labelCurrentUnit4c";
+            labelCurrentUnit4c.Size = new Size(26, 15);
+            labelCurrentUnit4c.TabIndex = 22;
+            labelCurrentUnit4c.Text = "A";
+            // 
+            // textBoxCurrent4
+            // 
+            textBoxCurrent4.Location = new Point(50, 76);
+            textBoxCurrent4.Name = "textBoxCurrent4";
+            textBoxCurrent4.Size = new Size(50, 23);
+            textBoxCurrent4.TabIndex = 21;
+            // 
+            // labelVoltageUnit4a
+            // 
+            labelVoltageUnit4a.AutoSize = true;
+            labelVoltageUnit4a.Location = new Point(272, 37);
+            labelVoltageUnit4a.Name = "labelVoltageUnit4a";
+            labelVoltageUnit4a.Size = new Size(14, 15);
+            labelVoltageUnit4a.TabIndex = 19;
+            labelVoltageUnit4a.Text = "V";
+            // 
+            // textBoxVoltageMax4
+            // 
+            textBoxVoltageMax4.Location = new Point(220, 33);
+            textBoxVoltageMax4.Name = "textBoxVoltageMax4";
+            textBoxVoltageMax4.Size = new Size(50, 23);
+            textBoxVoltageMax4.TabIndex = 18;
+            // 
+            // labelMin4a
+            // 
+            labelMin4a.AutoSize = true;
+            labelMin4a.Font = new Font("Segoe UI", 7F);
+            labelMin4a.Location = new Point(115, 16);
+            labelMin4a.Name = "labelMin4a";
+            labelMin4a.Size = new Size(24, 12);
+            labelMin4a.TabIndex = 17;
+            labelMin4a.Text = "MIN";
+            // 
+            // labelVoltageUnit4b
+            // 
+            labelVoltageUnit4b.AutoSize = true;
+            labelVoltageUnit4b.Location = new Point(187, 37);
+            labelVoltageUnit4b.Name = "labelVoltageUnit4b";
+            labelVoltageUnit4b.Size = new Size(14, 15);
+            labelVoltageUnit4b.TabIndex = 16;
+            labelVoltageUnit4b.Text = "V";
+            // 
+            // textBoxVoltageMin4
+            // 
+            textBoxVoltageMin4.Location = new Point(135, 32);
+            textBoxVoltageMin4.Name = "textBoxVoltageMin4";
+            textBoxVoltageMin4.Size = new Size(50, 23);
+            textBoxVoltageMin4.TabIndex = 15;
+            // 
+            // labelVoltageTitle4
+            // 
+            labelVoltageTitle4.AutoSize = true;
+            labelVoltageTitle4.Font = new Font("Segoe UI", 8.25F);
+            labelVoltageTitle4.Location = new Point(3, 36);
+            labelVoltageTitle4.Name = "labelVoltageTitle4";
+            labelVoltageTitle4.Size = new Size(47, 13);
+            labelVoltageTitle4.TabIndex = 10;
+            labelVoltageTitle4.Text = "Điện áp";
+            // 
+            // labelVoltageUnit4c
+            // 
+            labelVoltageUnit4c.AutoSize = true;
+            labelVoltageUnit4c.Location = new Point(102, 37);
+            labelVoltageUnit4c.Name = "labelVoltageUnit4c";
+            labelVoltageUnit4c.Size = new Size(14, 15);
+            labelVoltageUnit4c.TabIndex = 8;
+            labelVoltageUnit4c.Text = "V";
+            // 
+            // textBoxVoltage4
+            // 
+            textBoxVoltage4.Location = new Point(50, 32);
+            textBoxVoltage4.Name = "textBoxVoltage4";
+            textBoxVoltage4.Size = new Size(50, 23);
+            textBoxVoltage4.TabIndex = 6;
+            // 
+            // labelMax4a
+            // 
+            labelMax4a.AutoSize = true;
+            labelMax4a.Font = new Font("Segoe UI", 7F);
+            labelMax4a.Location = new Point(200, 17);
+            labelMax4a.Name = "labelMax4a";
+            labelMax4a.Size = new Size(26, 12);
+            labelMax4a.TabIndex = 29;
+            labelMax4a.Text = "MAX";
+            // 
+            // labelMin4b
+            // 
+            labelMin4b.AutoSize = true;
+            labelMin4b.Font = new Font("Segoe UI", 7F);
+            labelMin4b.Location = new Point(115, 16);
+            labelMin4b.Name = "labelMin4b";
+            labelMin4b.Size = new Size(24, 12);
+            labelMin4b.TabIndex = 17;
+            labelMin4b.Text = "MIN";
+            // 
+            // labelMax4b
+            // 
+            labelMax4b.AutoSize = true;
+            labelMax4b.Font = new Font("Segoe UI", 7F);
+            labelMax4b.Location = new Point(200, 17);
+            labelMax4b.Name = "labelMax4b";
+            labelMax4b.Size = new Size(26, 12);
+            labelMax4b.TabIndex = 29;
+            labelMax4b.Text = "MAX";
+            // 
+            // labelMin4c
+            // 
+            labelMin4c.AutoSize = true;
+            labelMin4c.Font = new Font("Segoe UI", 7F);
+            labelMin4c.Location = new Point(115, 16);
+            labelMin4c.Name = "labelMin4c";
+            labelMin4c.Size = new Size(24, 12);
+            labelMin4c.TabIndex = 17;
+            labelMin4c.Text = "MIN";
+            // 
+            // groupBoxControl4
+            // 
+            groupBoxControl4.Controls.Add(btnStopProcessTest4);
+            groupBoxControl4.Controls.Add(labelTestControlStatus4);
+            groupBoxControl4.Controls.Add(textBoxIDAdapter4);
+            groupBoxControl4.Controls.Add(progressBarTest4);
+            groupBoxControl4.Controls.Add(btnRestartProcessTest4);
+            groupBoxControl4.Controls.Add(btnStartProcessTest4);
+            groupBoxControl4.Location = new Point(10, 194);
+            groupBoxControl4.Name = "groupBoxControl4";
+            groupBoxControl4.Size = new Size(300, 169);
+            groupBoxControl4.TabIndex = 6;
+            groupBoxControl4.TabStop = false;
+            groupBoxControl4.Text = "Điều khiển quá trình test";
+            // 
+            // btnStopProcessTest4
+            // 
+            btnStopProcessTest4.Location = new Point(225, 100);
+            btnStopProcessTest4.Name = "btnStopProcessTest4";
+            btnStopProcessTest4.Size = new Size(75, 25);
+            btnStopProcessTest4.TabIndex = 42;
+            btnStopProcessTest4.Text = "Dừng";
+            btnStopProcessTest4.UseVisualStyleBackColor = true;
+            btnStopProcessTest4.Click += btnStopProcessTest4_Click;
+            // 
+            // labelTestControlStatus4
+            // 
+            labelTestControlStatus4.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            labelTestControlStatus4.BackColor = Color.LawnGreen;
+            labelTestControlStatus4.BorderStyle = BorderStyle.Fixed3D;
+            labelTestControlStatus4.Font = new Font("Tahoma", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelTestControlStatus4.Location = new Point(10, 35);
+            labelTestControlStatus4.Name = "labelTestControlStatus4";
+            labelTestControlStatus4.Size = new Size(140, 50);
+            labelTestControlStatus4.TabIndex = 13;
+            labelTestControlStatus4.Text = "IDLE";
+            labelTestControlStatus4.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // textBoxIDAdapter4
+            // 
+            textBoxIDAdapter4.Location = new Point(160, 35);
+            textBoxIDAdapter4.Multiline = true;
+            textBoxIDAdapter4.Name = "textBoxIDAdapter4";
+            textBoxIDAdapter4.ScrollBars = ScrollBars.Vertical;
+            textBoxIDAdapter4.Size = new Size(130, 50);
+            textBoxIDAdapter4.TabIndex = 12;
+            // 
+            // progressBarTest4
+            // 
+            progressBarTest4.Location = new Point(10, 137);
+            progressBarTest4.Name = "progressBarTest4";
+            progressBarTest4.Size = new Size(280, 23);
+            progressBarTest4.TabIndex = 8;
+            // 
+            // btnRestartProcessTest4
+            // 
+            btnRestartProcessTest4.Location = new Point(110, 100);
+            btnRestartProcessTest4.Name = "btnRestartProcessTest4";
+            btnRestartProcessTest4.Size = new Size(100, 25);
+            btnRestartProcessTest4.TabIndex = 11;
+            btnRestartProcessTest4.Text = "Bắt đầu lại";
+            btnRestartProcessTest4.UseVisualStyleBackColor = true;
+            btnRestartProcessTest4.Click += btnRestartProcessTest4_Click;
+            // 
+            // btnStartProcessTest4
+            // 
+            btnStartProcessTest4.Location = new Point(20, 100);
+            btnStartProcessTest4.Name = "btnStartProcessTest4";
+            btnStartProcessTest4.Size = new Size(75, 25);
+            btnStartProcessTest4.TabIndex = 9;
+            btnStartProcessTest4.Text = "Bắt đầu";
+            btnStartProcessTest4.UseVisualStyleBackColor = true;
+            btnStartProcessTest4.Click += btnStartProcessTest4_Click;
+
             // 
             // Control_all
             // 
+            Control_all.Controls.Add(checkBoxTestAdapter4);
             Control_all.Controls.Add(checkBoxTestAdapter3);
             Control_all.Controls.Add(checkBoxTestAdapter2);
             Control_all.Controls.Add(checkBoxTestAdapter1);
@@ -1873,15 +2363,25 @@ namespace Tool_test_adapter_power
             Control_all.Controls.Add(btnStartProcessTestAll);
             Control_all.Location = new Point(10, 159);
             Control_all.Name = "Control_all";
-            Control_all.Size = new Size(605, 100);
+            Control_all.Size = new Size(2000, 100);
             Control_all.TabIndex = 14;
             Control_all.TabStop = false;
             Control_all.Text = "Bảng điều khiển quá trình test";
             // 
+            // checkBoxTestAdapter4
+            // 
+            checkBoxTestAdapter4.AutoSize = true;
+            checkBoxTestAdapter4.Location = new Point(530, 60);
+            checkBoxTestAdapter4.Name = "checkBoxTestAdapter4";
+            checkBoxTestAdapter4.Size = new Size(87, 19);
+            checkBoxTestAdapter4.TabIndex = 10;
+            checkBoxTestAdapter4.Text = "Nguồn số 4";
+            checkBoxTestAdapter4.UseVisualStyleBackColor = true;
+            // 
             // checkBoxTestAdapter3
             // 
             checkBoxTestAdapter3.AutoSize = true;
-            checkBoxTestAdapter3.Location = new Point(483, 72);
+            checkBoxTestAdapter3.Location = new Point(440, 60);
             checkBoxTestAdapter3.Name = "checkBoxTestAdapter3";
             checkBoxTestAdapter3.Size = new Size(87, 19);
             checkBoxTestAdapter3.TabIndex = 9;
@@ -1891,7 +2391,7 @@ namespace Tool_test_adapter_power
             // checkBoxTestAdapter2
             // 
             checkBoxTestAdapter2.AutoSize = true;
-            checkBoxTestAdapter2.Location = new Point(483, 47);
+            checkBoxTestAdapter2.Location = new Point(530, 25);
             checkBoxTestAdapter2.Name = "checkBoxTestAdapter2";
             checkBoxTestAdapter2.Size = new Size(87, 19);
             checkBoxTestAdapter2.TabIndex = 8;
@@ -1901,7 +2401,7 @@ namespace Tool_test_adapter_power
             // checkBoxTestAdapter1
             // 
             checkBoxTestAdapter1.AutoSize = true;
-            checkBoxTestAdapter1.Location = new Point(483, 22);
+            checkBoxTestAdapter1.Location = new Point(440, 25);
             checkBoxTestAdapter1.Name = "checkBoxTestAdapter1";
             checkBoxTestAdapter1.Size = new Size(87, 19);
             checkBoxTestAdapter1.TabIndex = 7;
@@ -1945,9 +2445,10 @@ namespace Tool_test_adapter_power
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            AutoSize = true;
+            AutoSize = false;
             BackColor = SystemColors.ButtonHighlight;
-            ClientSize = new Size(1344, 881);
+            ClientSize = new Size(2100, 881);
+            Controls.Add(groupBoxAdapter4);
             Controls.Add(Control_all);
             Controls.Add(groupBox9);
             Controls.Add(groupBox5);
@@ -1961,6 +2462,14 @@ namespace Tool_test_adapter_power
             Controls.Add(CONNECTION);
             Name = "Form1";
             Text = "Adapter test tool";
+            groupBoxAdapter4.ResumeLayout(false);
+            groupBoxSave4.ResumeLayout(false);
+            groupBoxSave4.PerformLayout();
+            groupBoxMeasure4.ResumeLayout(false);
+            groupBoxMeasure4.PerformLayout();
+            groupBoxControl4.ResumeLayout(false);
+            groupBoxControl4.PerformLayout();
+
             CONNECTION.ResumeLayout(false);
             CONNECTION.PerformLayout();
             groupBox1.ResumeLayout(false);
@@ -2166,5 +2675,50 @@ namespace Tool_test_adapter_power
         private TextBox textBoxOperatingWorkes;
         private ComboBox comboBoxTestingStage;
         private Label label61;
+        // Adapter 4 Controls
+        private GroupBox groupBoxAdapter4;
+        private GroupBox groupBoxSave4;
+        private Button buttonRetrySaveData4;
+        private Label labelStatusOfSaveExcel4;
+        private Label labelStatusOfSaveServer4;
+        private Label labelStatus4;
+        private Label labelUploadExcel4;
+        private Label labelUploadServer4;
+        private GroupBox groupBoxMeasure4;
+        private TextBox textBoxPowerMax4;
+        private TextBox textBoxPowerMin4;
+        private TextBox textBoxPower4;
+        private TextBox textBoxCurrentMax4;
+        private TextBox textBoxCurrentMin4;
+        private TextBox textBoxCurrent4;
+        private TextBox textBoxVoltageMax4;
+        private TextBox textBoxVoltageMin4;
+        private TextBox textBoxVoltage4;
+        private Label labelPowerUnit4a;
+        private Label labelPowerUnit4b;
+        private Label labelPowerUnit4c;
+        private Label labelPowerTitle4;
+        private Label labelCurrentUnit4a;
+        private Label labelCurrentUnit4b;
+        private Label labelCurrentUnit4c;
+        private Label labelCurrentTitle4;
+        private Label labelVoltageUnit4a;
+        private Label labelVoltageUnit4b;
+        private Label labelVoltageUnit4c;
+        private Label labelVoltageTitle4;
+        private Label labelMax4a;
+        private Label labelMin4a;
+        private Label labelMax4b;
+        private Label labelMin4b;
+        private Label labelMax4c;
+        private Label labelMin4c;
+        private GroupBox groupBoxControl4;
+        private Button btnStopProcessTest4;
+        private Label labelTestControlStatus4;
+        private TextBox textBoxIDAdapter4;
+        private ProgressBar progressBarTest4;
+        private Button btnRestartProcessTest4;
+        private Button btnStartProcessTest4;
+        private CheckBox checkBoxTestAdapter4;
     }
 }

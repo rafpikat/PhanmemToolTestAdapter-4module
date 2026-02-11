@@ -33,11 +33,13 @@ namespace Tool_test_adapter_power
         private int testProgress1 = 0; // Tiến trình test
         private int testProgress2 = 0; // Tiến trình test
         private int testProgress3 = 0; // Tiến trình test
-        private TestSettings currentSettings; // Lưu thông số cài đặt
-        private string currentConfigFilePath = null;
+        private int testProgress4 = 0; // Tiến trình test
+        private TestSettings? currentSettings; // Lưu thông số cài đặt
+        private string? currentConfigFilePath;
         private bool isTesting1 = false; // Trạng thái test của Adapter 1
         private bool isTesting2 = false; // Trạng thái test của Adapter 2
         private bool isTesting3 = false; // Trạng thái test của Adapter 3
+        private bool isTesting4 = false; // Trạng thái test của Adapter 4
 
         //Adapter 2
 
@@ -68,18 +70,32 @@ namespace Tool_test_adapter_power
         private float powerMax3 = 0;
         private float powerMin3 = 0;
 
+        //Adapter 4
+        private bool isFirstVoltage4 = true;
+        private bool isFirstCurrent4 = true;
+        private float current4 = 0;
+        private float currentMax4 = 0;
+        private float currentMin4 = 0;
+        private float voltage4 = 0;
+        private float voltageMax4 = 0;
+        private float voltageMin4 = 0;
+        private float power4 = 0;
+        private float powerMax4 = 0;
+        private float powerMin4 = 0;
+
 
         private System.Windows.Forms.Timer connectionCheckTimer = new System.Windows.Forms.Timer();
         private System.Windows.Forms.Timer testTimer1 = new System.Windows.Forms.Timer();
         private System.Windows.Forms.Timer testTimer2 = new System.Windows.Forms.Timer();
         private System.Windows.Forms.Timer testTimer3 = new System.Windows.Forms.Timer();
+        private System.Windows.Forms.Timer testTimer4 = new System.Windows.Forms.Timer();
         //private StreamWriter logFile = null;
         private bool isLogging = false;
         private string[] _lastPorts = new string[0];
         private bool _connectionLostNotified = false; // Biến kiểm soát thông báo mất kết nối
 
         private bool isRecording = false; // Trạng thái ghi dữ liệu
-        private string excelFilePath; // Đường dẫn file Excel
+        private string? excelFilePath; // Đường dẫn file Excel
 
         // Thêm các trường mới cho xử lý QR
 
@@ -87,7 +103,7 @@ namespace Tool_test_adapter_power
 
         private string qrBuffer = string.Empty; // Lưu tạm dữ liệu QR
 
-        private List<(TextBox TextBox, CheckBox CheckBox)> adapterInputs; // Danh sách ô ID và checkbox
+        private List<(TextBox TextBox, CheckBox CheckBox)>? adapterInputs; // Danh sách ô ID và checkbox
 
         private int currentAdapterIndex = 0; // Chỉ số adapter hiện tại để nhập ID
 
@@ -109,8 +125,8 @@ namespace Tool_test_adapter_power
             public string Kết_quả { get; set; }
             public float Vmax_V { get; set; }
             public float Vmin_V { get; set; }
-            public float Imax_mA { get; set; }
-            public float Imin_mA { get; set; }
+            public float Imax_A { get; set; }
+            public float Imin_A { get; set; }
             public float Pmax_W { get; set; }
             public float Pmin_W { get; set; }
             public string Operator { get; set; } //Người thực hiện test
@@ -121,9 +137,10 @@ namespace Tool_test_adapter_power
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Resize += Form1_Resize;
 
-            this.AutoSize = true;
-            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            // this.AutoSize = true;
+            // this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             // Kích hoạt nhận sự kiện bàn phím
             this.KeyPreview = true;
             this.KeyPress += Form1_KeyPress;
@@ -156,7 +173,11 @@ namespace Tool_test_adapter_power
 
             testTimer3.Interval = 1000; // Cập nhật mỗi 1 giây
             testTimer3.Tick += TestTimer3_Tick;
+
+            testTimer4.Interval = 1000; // Cập nhật mỗi 1 giây
+            testTimer4.Tick += TestTimer4_Tick;
             serialPort1.ErrorReceived += SerialPort_ErrorReceived;
+
 
             LoadUartSettings();
             // Đảm bảo trạng thái ban đầu
@@ -211,6 +232,9 @@ namespace Tool_test_adapter_power
                 textBoxPathData.Text = "";
             }
             InitializeAdapterInputs();
+
+            // Trigger resize to apply custom layouts on startup
+            Form1_Resize(this, EventArgs.Empty);
         }
 
         private void InitializeAdapterInputs()
@@ -219,8 +243,456 @@ namespace Tool_test_adapter_power
             {
                 (textBoxIDAdapter1, checkBoxTestAdapter1),
                 (textBoxIDAdapter2, checkBoxTestAdapter2),
-                (textBoxIDAdapter3, checkBoxTestAdapter3)
+                (textBoxIDAdapter3, checkBoxTestAdapter3),
+                (textBoxIDAdapter4, checkBoxTestAdapter4)
             };
+        }
+
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            // Ensure controls are initialized
+            if (groupBox1 == null || groupBox5 == null || groupBox9 == null || groupBoxAdapter4 == null)
+                return;
+
+            // Get the available width (client area)
+            int availableWidth = this.ClientSize.Width;
+
+            // Define margins from left and right edges
+            const int marginLeft = 15;
+            const int marginRight = 15;
+            const int gapBetween = 15;
+
+            // === TOP ROW: CONNECTION, groupBox4, groupBox6 ===
+
+            // Calculate available space for groupBox4 and groupBox6
+            if (CONNECTION != null && groupBox4 != null && groupBox6 != null)
+            {
+                int connectionRight = CONNECTION.Location.X + CONNECTION.Width;
+                int availableSpace = this.ClientSize.Width - connectionRight - marginRight - (3 * gapBetween);
+                // 3 gaps: CONNECTION-groupBox4, groupBox4-groupBox6, groupBox6-rightEdge
+
+                // Split available space equally between groupBox4 and groupBox6
+                int halfSpace = availableSpace / 2;
+
+                // Set minimum widths
+                int groupBox4Width = Math.Max(halfSpace, 300);
+                int groupBox6Width = Math.Max(halfSpace, 400);
+
+                // Position and resize groupBox4
+                int groupBox4X = connectionRight + gapBetween;
+                groupBox4.Location = new Point(groupBox4X, groupBox4.Location.Y);
+                groupBox4.Size = new Size(groupBox4Width, groupBox4.Height);
+
+                // Resize groupBox4's child controls proportionally
+                float groupBox4ScaleFactor = groupBox4Width / 439f; // Original width was 439
+                ResizeControlsRecursively(groupBox4, groupBox4ScaleFactor);
+
+                // Position and resize groupBox6
+                int groupBox6X = groupBox4X + groupBox4Width + gapBetween;
+                groupBox6.Location = new Point(groupBox6X, groupBox6.Location.Y);
+                groupBox6.Size = new Size(groupBox6Width, groupBox6.Height);
+
+                // Resize groupBox6's child controls proportionally
+                float groupBox6ScaleFactor = groupBox6Width / 584f; // Original width was 584
+                ResizeControlsRecursively(groupBox6, groupBox6ScaleFactor);
+            }
+
+            // === ADAPTER GROUPBOXES ROW ===
+
+            // Calculate usable width for groupboxes
+            int usableWidth = availableWidth - marginLeft - marginRight;
+
+            // Calculate width for each groupbox (equally divided with 3 gaps of 15px)
+            int totalGaps = 3 * gapBetween; // 3 gaps between 4 groupboxes
+            int groupBoxWidth = (usableWidth - totalGaps) / 4;
+
+            // Ensure minimum width
+            if (groupBoxWidth < 300) groupBoxWidth = 300;
+
+            // Calculate positions
+            int x1 = marginLeft;
+            int x2 = x1 + groupBoxWidth + gapBetween;
+            int x3 = x2 + groupBoxWidth + gapBetween;
+            int x4 = x3 + groupBoxWidth + gapBetween;
+
+            // Update groupBox1
+            groupBox1.Location = new Point(x1, groupBox1.Location.Y); groupBox1.Size = new Size(groupBoxWidth, groupBox1.Height);
+
+            // Update groupBox5
+            groupBox5.Location = new Point(x2, groupBox5.Location.Y);
+            groupBox5.Size = new Size(groupBoxWidth, groupBox5.Height);
+
+            // Update groupBox9
+            groupBox9.Location = new Point(x3, groupBox9.Location.Y);
+            groupBox9.Size = new Size(groupBoxWidth, groupBox9.Height);
+
+            // Update groupBoxAdapter4
+            groupBoxAdapter4.Location = new Point(x4, groupBoxAdapter4.Location.Y);
+            groupBoxAdapter4.Size = new Size(groupBoxWidth, groupBoxAdapter4.Height);
+
+            // === CONTROL_ALL PANEL ===
+
+            // Update Control_all to fit between left edge and groupBox6 (with 15px gap)
+            if (Control_all != null && groupBox6 != null)
+            {
+                int controlAllWidth = groupBox6.Location.X - Control_all.Location.X - gapBetween; // 15px gap from groupBox6
+                Control_all.Size = new Size(controlAllWidth, Control_all.Height);
+
+                // Custom layout for Control_all's buttons and checkboxes with even spacing
+                if (btnStartProcessTestAll != null && btnRestartProcessTestAll != null && btnStopProcessTestAll != null &&
+                    checkBoxTestAdapter1 != null && checkBoxTestAdapter2 != null &&
+                    checkBoxTestAdapter3 != null && checkBoxTestAdapter4 != null)
+                {
+                    const int buttonY = 34;
+                    const int checkboxRow1Y = 25;
+                    const int checkboxRow2Y = 60;
+                    const int leftMargin = 20;
+
+                    // Calculate available space for 3 buttons with 2 gaps
+                    int availableForButtons = controlAllWidth - leftMargin - 200; // Reserve 200px for checkboxes on right
+                    int buttonWidth = (availableForButtons - (2 * gapBetween)) / 3;
+                    if (buttonWidth < 100) buttonWidth = 100;
+
+                    // Layout buttons with 15px gaps
+                    btnStartProcessTestAll.Location = new Point(leftMargin, buttonY);
+                    btnStartProcessTestAll.Size = new Size(buttonWidth, 42);
+
+                    btnRestartProcessTestAll.Location = new Point(leftMargin + buttonWidth + gapBetween, buttonY);
+                    btnRestartProcessTestAll.Size = new Size(buttonWidth, 42);
+
+                    btnStopProcessTestAll.Location = new Point(leftMargin + 2 * buttonWidth + 2 * gapBetween, buttonY);
+                    btnStopProcessTestAll.Size = new Size(buttonWidth, 42);
+
+                    // Layout checkboxes on the right side with 15px gaps
+                    int checkboxStartX = controlAllWidth - 200; // Start 200px from right edge
+
+                    checkBoxTestAdapter1.Location = new Point(checkboxStartX, checkboxRow1Y);
+                    checkBoxTestAdapter2.Location = new Point(checkboxStartX + 90, checkboxRow1Y); // 90px spacing for checkbox
+
+                    checkBoxTestAdapter3.Location = new Point(checkboxStartX, checkboxRow2Y);
+                    checkBoxTestAdapter4.Location = new Point(checkboxStartX + 90, checkboxRow2Y);
+                }
+            }
+
+            // Resize inner group boxes proportionally
+            ResizeInnerGroupBoxes(groupBox1, groupBoxWidth);
+            ResizeInnerGroupBoxes(groupBox5, groupBoxWidth);
+            ResizeInnerGroupBoxes(groupBox9, groupBoxWidth);
+            ResizeInnerGroupBoxes(groupBoxAdapter4, groupBoxWidth);
+        }
+
+
+
+
+        private void ResizeInnerGroupBoxes(GroupBox parentGroupBox, int newWidth)
+        {
+            if (parentGroupBox == null) return;
+
+            const int innerMargin = 5; // 5px margin from parent edges
+
+            // Calculate available width for inner groupboxes
+            int innerWidth = newWidth - (2 * innerMargin); // Account for left and right margins
+
+            // Resize each inner GroupBox
+            foreach (Control control in parentGroupBox.Controls)
+            {
+                if (control is GroupBox innerGroupBox)
+                {
+                    // Set the width to fill parent with 5px margins
+                    innerGroupBox.Size = new Size(innerWidth, innerGroupBox.Height);
+
+                    // Ensure left margin is 5px (X position might have been set differently)
+                    if (innerGroupBox.Location.X != innerMargin)
+                    {
+                        innerGroupBox.Location = new Point(innerMargin, innerGroupBox.Location.Y);
+                    }
+
+                    // Check if this is a measurement panel (Thông số đo)
+                    if (innerGroupBox.Text == "Thông số đo" || innerGroupBox.Name == "groupBoxMeasure4")
+                    {
+                        LayoutMeasurementPanel(innerGroupBox, innerWidth);
+                    }
+                    // Check if this is a test control panel (Điều khiển quá trình test)
+                    else if (innerGroupBox.Text == "Điều khiển quá trình test" || innerGroupBox.Name == "groupBoxControl4")
+                    {
+                        LayoutTestControlPanel(innerGroupBox, innerWidth);
+                    }
+                    else
+                    {
+                        // Calculate scale factor for inner controls
+                        float scaleFactor = innerWidth / 420f; // Original inner width was 420
+
+                        // Recursively resize controls inside this inner GroupBox
+                        ResizeInnerControls(innerGroupBox, scaleFactor);
+                    }
+                }
+            }
+        }
+
+        private void LayoutMeasurementPanel(GroupBox measurementPanel, int panelWidth)
+        {
+            // Debug: Show message to verify this method is being called
+            // MessageBox.Show($"LayoutMeasurementPanel called for: {measurementPanel.Name}, Text: '{measurementPanel.Text}'");
+
+            // Custom layout for measurement panel with 20px gaps after labels
+            const int leftMargin = 3;
+            const int labelGap = 20; // Gap after labels (Điện áp, Dòng điện, Công suất)
+            const int columnGap = 15; // Gap between columns
+
+            // Calculate column widths
+            int labelWidth = 65; // Width for labels like "Điện áp"
+            int textBoxWidth = 50; // Standard textbox width
+            int unitWidth = 26; // Width for units like "V", "A", "W"
+
+            // Calculate positions for each column
+            int col1X = leftMargin + labelWidth + labelGap; // First textbox (actual value)
+            int col1UnitX = col1X + textBoxWidth + 8;
+
+            int col2X = col1UnitX + unitWidth + columnGap; // MIN textbox
+            int col2UnitX = col2X + textBoxWidth + 8;
+
+            int col3X = col2UnitX + unitWidth + columnGap; // MAX textbox
+            int col3UnitX = col3X + textBoxWidth + 8;
+
+
+            // Layout each row
+            int layoutCount = 0;
+            foreach (Control control in measurementPanel.Controls)
+            {
+                string name = control.Name;
+                bool wasLayouted = false;
+
+                // Hide redundant labels for Adapter 4
+                if (name == "labelMin4a" || name == "labelMin4b" || name == "labelMax4a" || name == "labelMax4b")
+                {
+                    control.Visible = false;
+                    continue;
+                }
+
+                // Row 1: Voltage (Điện áp) - Y=32-37
+                // Adapter 1: label5, label3, label10, label9, label12, label4
+                // Adapter 2: label43, label44, label42, label41, label40, label29
+                // Adapter 3: label58, label59, label57, label56, label55, label50
+                // Adapter 4: labelVoltageTitle4, labelVoltageUnit4c, labelVoltageUnit4b, labelMin4c, labelVoltageUnit4a, labelMax4c
+                if (name.Contains("Voltage") ||
+                    name == "label5" || name == "label3" || name == "label10" || name == "label9" || name == "label12" || name == "label4" ||
+                    name == "label43" || name == "label44" || name == "label42" || name == "label41" || name == "label40" || name == "label29" ||
+                    name == "label58" || name == "label59" || name == "label57" || name == "label56" || name == "label55" || name == "label50" ||
+                    name == "labelVoltageTitle4" || name == "labelVoltageUnit4c" || name == "labelVoltageUnit4b" || name == "labelMin4c" || name == "labelVoltageUnit4a" || name == "labelMax4c")
+                {
+                    wasLayouted = true;
+                    // Voltage label title
+                    if (name == "label5" || name == "labelVoltageTitle4" || name == "label43" || name == "label58")
+                        control.Location = new Point(leftMargin, 36);
+                    // Main voltage textbox
+                    else if ((name.Contains("textBoxVoltage") || name.Contains("textBoxVoltage")) && !name.Contains("Min") && !name.Contains("Max"))
+                        control.Location = new Point(col1X, 32);
+                    // Main voltage unit
+                    else if (name == "label3" || name == "labelVoltageUnit4c" || name == "label44" || name == "label59")
+                        control.Location = new Point(col1UnitX, 37);
+                    // Min voltage textbox
+                    else if (name.Contains("VoltageMin") || name.Contains("VoltageMin"))
+                        control.Location = new Point(col2X, 32);
+                    // Min voltage unit
+                    else if (name == "label10" || name == "labelVoltageUnit4b" || name == "label42" || name == "label57")
+                        control.Location = new Point(col2UnitX, 37);
+                    // MIN label - Align with 2nd textbox (col2X)
+                    else if (name == "label9" || name == "labelMinTitle4" || name == "labelMin4c" || name == "label41" || name == "label56")
+                        control.Location = new Point(col2X + 10, 16); // Centered over 50px textbox
+                    // Max voltage textbox
+                    else if (name.Contains("VoltageMax") || name.Contains("VoltageMax"))
+                        control.Location = new Point(col3X, 33);
+                    // Max voltage unit
+                    else if (name == "label12" || name == "labelVoltageUnit4a" || name == "label40" || name == "label55")
+                        control.Location = new Point(col3UnitX, 37);
+                    // MAX label - Align with 3rd textbox (col3X)
+                    else if (name == "label4" || name == "labelMaxTitle4" || name == "labelMax4c" || name == "label29" || name == "label50")
+                        control.Location = new Point(col3X + 10, 17); // Centered over 50px textbox
+                }
+                // Row 2: Current (Dòng điện) - Y=76-81
+                // Adapter 1: label13, label14, label8, label6
+                // Adapter 2: label38, label39, label37, label36
+                // Adapter 3: label53, label54, label52, label51
+                // Adapter 4: labelCurrentTitle4, labelCurrentUnit4c, labelCurrentUnit4b, labelCurrentUnit4a
+                else if (name.Contains("Current") ||
+                         name == "label13" || name == "label14" || name == "label8" || name == "label6" ||
+                         name == "label38" || name == "label39" || name == "label37" || name == "label36" ||
+                         name == "label53" || name == "label54" || name == "label52" || name == "label51" ||
+                         name == "labelCurrentTitle4" || name == "labelCurrentUnit4c" || name == "labelCurrentUnit4b" || name == "labelCurrentUnit4a")
+                {
+                    // Current label title
+                    if (name == "label13" || name == "labelCurrentTitle4" || name == "label38" || name == "label53")
+                        control.Location = new Point(leftMargin, 80);
+                    // Main current textbox
+                    else if ((name.Contains("textBoxCurrent") || name.Contains("textBoxCurrent")) && !name.Contains("Min") && !name.Contains("Max"))
+                        control.Location = new Point(col1X, 76);
+                    // Main current unit
+                    else if (name == "label14" || name == "labelCurrentUnit4c" || name == "label39" || name == "label54")
+                        control.Location = new Point(col1UnitX, 80);
+                    // Min current textbox
+                    else if (name.Contains("CurrentMin") || name.Contains("CurrentMin"))
+                        control.Location = new Point(col2X, 76);
+                    // Min current unit
+                    else if (name == "label8" || name == "labelCurrentUnit4b" || name == "label37" || name == "label52")
+                        control.Location = new Point(col2UnitX, 80);
+                    // Max current textbox
+                    else if (name.Contains("CurrentMax") || name.Contains("CurrentMax"))
+                        control.Location = new Point(col3X, 77);
+                    // Max current unit
+                    else if (name == "label6" || name == "labelCurrentUnit4a" || name == "label36" || name == "label51")
+                        control.Location = new Point(col3UnitX, 81);
+                }
+                // Row 3: Power (Công suất) - Y=120-125
+                // Adapter 1: label19, label20, label18, label16
+                // Adapter 2: label27, label28, label26, label25
+                // Adapter 3: label48, label49, label47, label46
+                // Adapter 4: labelPowerTitle4, labelPowerUnit4c, labelPowerUnit4b, labelPowerUnit4a
+                else if (name.Contains("Power") ||
+                         name == "label19" || name == "label20" || name == "label18" || name == "label16" ||
+                         name == "label27" || name == "label28" || name == "label26" || name == "label25" ||
+                         name == "label48" || name == "label49" || name == "label47" || name == "label46" ||
+                         name == "labelPowerTitle4" || name == "labelPowerUnit4c" || name == "labelPowerUnit4b" || name == "labelPowerUnit4a")
+                {
+                    // Power label title
+                    if (name == "label19" || name == "labelPowerTitle4" || name == "label27" || name == "label48")
+                        control.Location = new Point(leftMargin, 124);
+                    // Main power textbox
+                    else if ((name.Contains("textBoxPower") || name.Contains("textBoxPower")) && !name.Contains("Min") && !name.Contains("Max"))
+                        control.Location = new Point(col1X, 120);
+                    // Main power unit
+                    else if (name == "label20" || name == "labelPowerUnit4c" || name == "label28" || name == "label49")
+                        control.Location = new Point(col1UnitX, 125);
+                    // Min power textbox
+                    else if (name.Contains("PowerMin") || name.Contains("PowerMin"))
+                        control.Location = new Point(col2X, 120);
+                    // Min power unit
+                    else if (name == "label18" || name == "labelPowerUnit4b" || name == "label26" || name == "label47")
+                        control.Location = new Point(col2UnitX, 125);
+                    // Max power textbox
+                    else if (name.Contains("PowerMax") || name.Contains("PowerMax"))
+                        control.Location = new Point(col3X, 121);
+                    // Max power unit
+                    else if (name == "label16" || name == "labelPowerUnit4a" || name == "label25" || name == "label46")
+                        control.Location = new Point(col3UnitX, 124);
+                }
+            }
+        }
+
+        private void LayoutTestControlPanel(GroupBox controlPanel, int panelWidth)
+        {
+            if (controlPanel == null) return;
+
+            // Define margins and gaps
+            int sideMargin = 10;
+            int gap = 5;
+            int availableWidth = panelWidth - (2 * sideMargin);
+
+            // Find controls
+            Control labelStatus = null;
+            Control textBoxID = null;
+
+            foreach (Control control in controlPanel.Controls)
+            {
+                if (control.Name.Contains("labelTestControlStatus"))
+                    labelStatus = control;
+                else if (control.Name.Contains("textBoxIDAdapter"))
+                    textBoxID = control;
+            }
+
+            if (labelStatus != null && textBoxID != null)
+            {
+                // Calculate widths
+                // Keep original ratio or split 50/50? 
+                // Based on Designer: label is 140, textbox is 130. Total ~270.
+                // Ratio: Label ~52%, TextBox ~48%
+
+                int labelWidth = (int)(availableWidth * 0.52);
+                int textBoxWidth = availableWidth - labelWidth - gap;
+
+                // Update positions and sizes
+                labelStatus.Location = new Point(sideMargin, 35); // Keep Y=35 as per designer
+                labelStatus.Size = new Size(labelWidth, 50);      // Keep Height=50
+
+                textBoxID.Location = new Point(sideMargin + labelWidth + gap, 35);
+                textBoxID.Size = new Size(textBoxWidth, 50);
+            }
+        }
+
+
+        private void ResizeInnerControls(Control parent, float scaleFactor)
+        {
+            if (parent == null) return;
+
+            foreach (Control control in parent.Controls)
+            {
+                // Get original bounds - use a custom class to store if Tag is not set
+                Rectangle originalBounds;
+
+                if (control.Tag is ControlOriginalBounds originalInfo)
+                {
+                    originalBounds = originalInfo.Bounds;
+                }
+                else
+                {
+                    // First time - store original bounds
+                    originalBounds = control.Bounds;
+                    control.Tag = new ControlOriginalBounds { Bounds = originalBounds };
+                }
+
+                // Calculate new position and size based on scale factor
+                int newX = (int)(originalBounds.X * scaleFactor);
+                int newY = originalBounds.Y; // Y position unchanged
+                int newWidth = (int)(originalBounds.Width * scaleFactor);
+                int newHeight = originalBounds.Height; // Height unchanged
+
+                // Apply new bounds
+                control.Location = new Point(newX, newY);
+                control.Size = new Size(newWidth, newHeight);
+
+                // Recursively resize children (for nested containers)
+                if (control.Controls.Count > 0 && !(control is TextBox))
+                {
+                    ResizeInnerControls(control, scaleFactor);
+                }
+            }
+        }
+
+        // Helper class to store original control bounds
+        private class ControlOriginalBounds
+        {
+            public Rectangle Bounds { get; set; }
+        }
+
+        private void ResizeControlsRecursively(Control parent, float scaleFactor)
+        {
+            if (parent == null) return;
+
+            foreach (Control control in parent.Controls)
+            {
+                // Store original bounds if not already stored
+                if (control.Tag == null || !(control.Tag is Rectangle))
+                {
+                    control.Tag = control.Bounds; // Store original bounds
+                }
+
+                Rectangle originalBounds = (Rectangle)control.Tag;
+
+                // Calculate new position and size
+                int newX = (int)(originalBounds.X * scaleFactor);
+                int newY = originalBounds.Y; // Keep Y unchanged
+                int newWidth = (int)(originalBounds.Width * scaleFactor);
+                int newHeight = originalBounds.Height; // Keep height unchanged
+
+                // Apply new bounds
+                control.Bounds = new Rectangle(newX, newY, newWidth, newHeight);
+
+                // Recursively resize children (e.g., controls inside GroupBoxes)
+                if (control.Controls.Count > 0)
+                {
+                    ResizeControlsRecursively(control, scaleFactor);
+                }
+            }
         }
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -371,8 +843,8 @@ namespace Tool_test_adapter_power
             {
                 if (!float.TryParse(domainUpDownVoltageMin.Text.Replace(" V", ""), out float voltageMin) ||
                     !float.TryParse(domainUpDownVoltageMax.Text.Replace(" V", ""), out float voltageMax) ||
-                    !float.TryParse(domainUpDownCurrentMin.Text.Replace(" mA", ""), out float currentMin) ||
-                    !float.TryParse(domainUpDownCurrentMax.Text.Replace(" mA", ""), out float currentMax) ||
+                    !float.TryParse(domainUpDownCurrentMin.Text.Replace(" A", ""), out float currentMin) ||
+                    !float.TryParse(domainUpDownCurrentMax.Text.Replace(" A", ""), out float currentMax) ||
                     !int.TryParse(domainUpDownTimeTesting.Text.Replace(" s", ""), out int testTime))
                 {
                     MessageBox.Show("Dữ liệu nhập không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -586,8 +1058,8 @@ namespace Tool_test_adapter_power
                                     textBoxVoltage1.Text = value.ToString("F3");
                                     textBoxVoltageMax1.Text = voltageMax.ToString("F3");
                                     textBoxVoltageMin1.Text = voltageMin.ToString("F3");
-                                    powerMax = voltageMax * currentMax / 1000;
-                                    powerMin = voltageMin * currentMin / 1000;
+                                    powerMax = voltageMax * currentMax;
+                                    powerMin = voltageMin * currentMin;
                                     textBoxPowerMax1.Text = powerMax.ToString("F3");
                                     textBoxPowerMin1.Text = powerMin.ToString("F3");
 
@@ -616,8 +1088,8 @@ namespace Tool_test_adapter_power
                                     textBoxVoltage2.Text = value.ToString("F3");
                                     textBoxVoltageMax2.Text = voltageMax2.ToString("F3");
                                     textBoxVoltageMin2.Text = voltageMin2.ToString("F3");
-                                    powerMax2 = voltageMax2 * currentMax2 / 1000;
-                                    powerMin2 = voltageMin2 * currentMin2 / 1000;
+                                    powerMax2 = voltageMax2 * currentMax2;
+                                    powerMin2 = voltageMin2 * currentMin2;
                                     textBoxPowerMax2.Text = powerMax2.ToString("F3");
                                     textBoxPowerMin2.Text = powerMin2.ToString("F3");
 
@@ -645,10 +1117,39 @@ namespace Tool_test_adapter_power
                                     textBoxVoltage3.Text = value.ToString("F3");
                                     textBoxVoltageMax3.Text = voltageMax3.ToString("F3");
                                     textBoxVoltageMin3.Text = voltageMin3.ToString("F3");
-                                    powerMax3 = voltageMax3 * currentMax3 / 1000;
-                                    powerMin3 = voltageMin3 * currentMin3 / 1000;
+                                    powerMax3 = voltageMax3 * currentMax3;
+                                    powerMin3 = voltageMin3 * currentMin3;
                                     textBoxPowerMax3.Text = powerMax3.ToString("F3");
                                     textBoxPowerMin3.Text = powerMin3.ToString("F3");
+
+                                }
+                            }
+                            else if (adapter == 0x04)
+                            {
+                                voltage4 = value;
+
+                                if (isTesting4)
+                                {
+
+                                    if (isFirstVoltage4)
+                                    {
+                                        voltageMax4 = value;
+                                        voltageMin4 = value;
+                                        isFirstVoltage4 = false;
+                                    }
+                                    else
+                                    {
+                                        voltageMax4 = Math.Max(voltageMax4, value);
+                                        voltageMin4 = Math.Min(voltageMin4, value);
+                                    }
+
+                                    textBoxVoltage4.Text = value.ToString("F3");
+                                    textBoxVoltageMax4.Text = voltageMax4.ToString("F3");
+                                    textBoxVoltageMin4.Text = voltageMin4.ToString("F3");
+                                    powerMax4 = voltageMax4 * currentMax4;
+                                    powerMin4 = voltageMin4 * currentMin4;
+                                    textBoxPowerMax4.Text = powerMax4.ToString("F3");
+                                    textBoxPowerMin4.Text = powerMin4.ToString("F3");
 
                                 }
                             }
@@ -677,8 +1178,8 @@ namespace Tool_test_adapter_power
                                     textBoxCurrent1.Text = value.ToString("F3");
                                     textBoxCurrentMax1.Text = currentMax.ToString("F3");
                                     textBoxCurrentMin1.Text = currentMin.ToString("F3");
-                                    powerMax = voltageMax * currentMax / 1000;
-                                    powerMin = voltageMin * currentMin / 1000;
+                                    powerMax = voltageMax * currentMax;
+                                    powerMin = voltageMin * currentMin;
                                     textBoxPowerMax1.Text = powerMax.ToString("F3");
                                     textBoxPowerMin1.Text = powerMin.ToString("F3");
                                 }
@@ -703,8 +1204,8 @@ namespace Tool_test_adapter_power
                                     textBoxCurrent2.Text = value.ToString("F3");
                                     textBoxCurrentMax2.Text = currentMax2.ToString("F3");
                                     textBoxCurrentMin2.Text = currentMin2.ToString("F3");
-                                    powerMax2 = voltageMax2 * currentMax2 / 1000;
-                                    powerMin2 = voltageMin2 * currentMin2 / 1000;
+                                    powerMax2 = voltageMax2 * currentMax2;
+                                    powerMin2 = voltageMin2 * currentMin2;
                                     textBoxPowerMax2.Text = powerMax2.ToString("F3");
                                     textBoxPowerMin2.Text = powerMin2.ToString("F3");
                                 }
@@ -729,14 +1230,39 @@ namespace Tool_test_adapter_power
                                     textBoxCurrent3.Text = value.ToString("F3");
                                     textBoxCurrentMax3.Text = currentMax3.ToString("F3");
                                     textBoxCurrentMin3.Text = currentMin3.ToString("F3");
-                                    powerMax3 = voltageMax3 * currentMax3 / 1000;
-                                    powerMin3 = voltageMin3 * currentMin3 / 1000;
+                                    powerMax3 = voltageMax3 * currentMax3;
+                                    powerMin3 = voltageMin3 * currentMin3;
                                     textBoxPowerMax3.Text = powerMax3.ToString("F3");
                                     textBoxPowerMin3.Text = powerMin3.ToString("F3");
                                 }
 
                             }
+                            else if (adapter == 0x04)
+                            {
+                                current4 = value;
+                                if (isTesting4)
+                                {
+                                    if (isFirstCurrent4)
+                                    {
+                                        currentMax4 = value;
+                                        currentMin4 = value;
+                                        isFirstCurrent4 = false;
+                                    }
+                                    else
+                                    {
+                                        currentMax4 = Math.Max(currentMax4, value);
+                                        currentMin4 = Math.Min(currentMin4, value);
+                                    }
 
+                                    textBoxCurrent4.Text = value.ToString("F3");
+                                    textBoxCurrentMax4.Text = currentMax4.ToString("F3");
+                                    textBoxCurrentMin4.Text = currentMin4.ToString("F3");
+                                    powerMax4 = voltageMax4 * currentMax4;
+                                    powerMin4 = voltageMin4 * currentMin4;
+                                    textBoxPowerMax4.Text = powerMax4.ToString("F3");
+                                    textBoxPowerMin4.Text = powerMin4.ToString("F3");
+                                }
+                            }
                             break;
                         }
 
@@ -744,11 +1270,13 @@ namespace Tool_test_adapter_power
                         break;
                 }
 
-                power = voltage * current / 1000;
+                power = voltage * current;
 
-                power2 = voltage2 * current2 / 1000;
+                power2 = voltage2 * current2;
 
-                power3 = voltage3 * current3 / 1000;
+                power3 = voltage3 * current3;
+
+                power4 = voltage4 * current4;
 
                 textBoxPower1.Text = power.ToString("F3");
                 textBoxVoltage1.Text = voltage.ToString("F3");
@@ -762,6 +1290,9 @@ namespace Tool_test_adapter_power
                 textBoxVoltage3.Text = voltage3.ToString("F3");
                 textBoxCurrent3.Text = current3.ToString("F3");
 
+                textBoxPower4.Text = power4.ToString("F3");
+                textBoxVoltage4.Text = voltage4.ToString("F3");
+                textBoxCurrent4.Text = current4.ToString("F3");
             }));
         }
 
@@ -920,8 +1451,8 @@ namespace Tool_test_adapter_power
                         worksheet.Cells[1, 3].Value = "Kết quả";
                         worksheet.Cells[1, 4].Value = "Vmax (V)";
                         worksheet.Cells[1, 5].Value = "Vmin (V)";
-                        worksheet.Cells[1, 6].Value = "Imax (mA)";
-                        worksheet.Cells[1, 7].Value = "Imin (mA)";
+                        worksheet.Cells[1, 6].Value = "Imax (A)";
+                        worksheet.Cells[1, 7].Value = "Imin (A)";
                         worksheet.Cells[1, 8].Value = "Pmax (W)";
                         worksheet.Cells[1, 9].Value = "Pmin (W)";
                         worksheet.Cells[1, 10].Value = "Operator"; // Thêm cột Người thực hiện
@@ -1202,6 +1733,24 @@ namespace Tool_test_adapter_power
                 }
             }
         }
+        private async void TestTimer4_Tick(object sender, EventArgs e)
+        {
+            if (isTesting4)
+            {
+                testProgress4++;
+                progressBarTest4.Value = Math.Min(testProgress4, currentSettings.TestTime);
+
+                // Kiểm tra kết thúc test
+                if (testProgress4 >= currentSettings.TestTime)
+                {
+                    testTimer4.Stop();
+                    isTesting4 = false;
+                    await EvaluateTestResult(4);
+                    CheckAllTestsCompleted();
+                    return;
+                }
+            }
+        }
         //private void CheckAllTestsCompleted()
         //{
         //    // Kiểm tra nếu tất cả adapter được chọn đã hoàn tất
@@ -1265,8 +1814,8 @@ namespace Tool_test_adapter_power
                 }
 
                 // Tính powerMax và powerMin dựa trên voltage và current
-                powerMax = voltageMax * currentMax / 1000; // Giả sử đơn vị
-                powerMin = voltageMin * currentMin / 1000;
+                powerMax = voltageMax * currentMax; // Giả sử đơn vị
+                powerMin = voltageMin * currentMin;
                 textBoxPowerMax1.Text = powerMax.ToString("F3") + " W";
                 textBoxPowerMin1.Text = powerMin.ToString("F3") + " W";
 
@@ -1305,8 +1854,8 @@ namespace Tool_test_adapter_power
                 }
 
                 // Tính powerMax và powerMin dựa trên voltage và current
-                powerMax2 = voltageMax2 * currentMax2 / 1000; // Giả sử đơn vị
-                powerMin2 = voltageMin2 * currentMin2 / 1000;
+                powerMax2 = voltageMax2 * currentMax2; // Giả sử đơn vị
+                powerMin2 = voltageMin2 * currentMin2;
                 textBoxPowerMax2.Text = powerMax2.ToString("F3") + " W";
                 textBoxPowerMin2.Text = powerMin2.ToString("F3") + " W";
 
@@ -1345,8 +1894,8 @@ namespace Tool_test_adapter_power
                 }
 
                 // Tính powerMax và powerMin dựa trên voltage và current
-                powerMax3 = voltageMax3 * currentMax3 / 1000; // Giả sử đơn vị
-                powerMin3 = voltageMin3 * currentMin3 / 1000;
+                powerMax3 = voltageMax3 * currentMax3; // Giả sử đơn vị
+                powerMin3 = voltageMin3 * currentMin3;
                 textBoxPowerMax3.Text = powerMax3.ToString("F3") + " W";
                 textBoxPowerMin3.Text = powerMin3.ToString("F3") + " W";
 
@@ -1354,6 +1903,46 @@ namespace Tool_test_adapter_power
                 labelTestControlStatus3.Text = isPass ? "PASS" : "FAIL";
                 labelTestControlStatus3.ForeColor = isPass ? Color.Green : Color.Red;
                 await SaveTestResultToExcel(3);
+            }
+            else if (adapterIndex == 4)
+            {
+                bool isPass = true;
+
+                // So sánh với thông số cài đặt
+                if (voltageMax4 > currentSettings.VoltageMax || voltageMin4 < currentSettings.VoltageMin)
+                {
+                    textBoxVoltageMax4.ForeColor = (voltageMax4 > currentSettings.VoltageMax) ? Color.Red : textBoxVoltageMax4.ForeColor;
+                    textBoxVoltageMin4.ForeColor = (voltageMin4 < currentSettings.VoltageMin) ? Color.Red : textBoxVoltageMin4.ForeColor;
+                    isPass = false;
+                }
+                else
+                {
+                    textBoxVoltageMax4.ForeColor = Color.Black;
+                    textBoxVoltageMin4.ForeColor = Color.Black;
+                }
+
+                if (currentMax4 > currentSettings.CurrentMax || currentMin4 < currentSettings.CurrentMin)
+                {
+                    textBoxCurrentMax4.ForeColor = (currentMax4 > currentSettings.CurrentMax) ? Color.Red : textBoxCurrentMax4.ForeColor;
+                    textBoxCurrentMin4.ForeColor = (currentMin4 < currentSettings.CurrentMin) ? Color.Red : textBoxCurrentMin4.ForeColor;
+                    isPass = false;
+                }
+                else
+                {
+                    textBoxCurrentMax4.ForeColor = Color.Black;
+                    textBoxCurrentMin4.ForeColor = Color.Black;
+                }
+
+                // Tính powerMax và powerMin dựa trên voltage và current
+                powerMax4 = voltageMax4 * currentMax4; // Giả sử đơn vị
+                powerMin4 = voltageMin4 * currentMin4;
+                textBoxPowerMax4.Text = powerMax4.ToString("F3") + " W";
+                textBoxPowerMin4.Text = powerMin4.ToString("F3") + " W";
+
+                // Cập nhật trạng thái
+                labelTestControlStatus4.Text = isPass ? "PASS" : "FAIL";
+                labelTestControlStatus4.ForeColor = isPass ? Color.Green : Color.Red;
+                await SaveTestResultToExcel(4);
             }
         }
 
@@ -1495,6 +2084,64 @@ namespace Tool_test_adapter_power
             labelStatusOfSaveExcel3.ForeColor = Color.Black;
             labelStatusOfSaveServer3.ForeColor = Color.Black;
         }
+        private void btnStartProcessTest4_Click(object sender, EventArgs e)
+        {
+            // Kiểm tra thông tin người test
+            if (!ValidateOperatorInfo()) return;
+
+            // Reset Min/Max trước khi test
+            ResetMinMaxValues(4);
+            // Kiểm tra ID Adapter
+            if (string.IsNullOrWhiteSpace(textBoxIDAdapter4.Text))
+            {
+                MessageBox.Show("Thiếu ID của adapter 4!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Kiểm tra kết nối UART
+            if (!serialPort1.IsOpen)
+            {
+                MessageBox.Show("Kết nối UART chưa được thiết lập!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Kiểm tra thông số cài đặt
+            if (!LoadAndValidateSettings())
+            {
+                MessageBox.Show("Thông số test không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Bắt đầu test
+            isFirstVoltage4 = true;
+            isFirstCurrent4 = true;
+            StartTest(4);
+            labelStatusOfSaveExcel4.Text = "IDLE";
+            labelStatusOfSaveServer4.Text = "IDLE";
+            labelStatusOfSaveExcel4.ForeColor = Color.Black;
+            labelStatusOfSaveServer4.ForeColor = Color.Black;
+        }
+
+        private void btnRestartProcessTest4_Click(object sender, EventArgs e)
+        {
+            if (isTesting4)
+            {
+                testTimer4.Stop();
+            }
+            btnStartProcessTest4_Click(sender, e); // Gọi lại logic bắt đầu
+        }
+
+        private void btnStopProcessTest4_Click(object sender, EventArgs e)
+        {
+            testTimer4.Stop();
+            isTesting4 = false;
+            labelTestControlStatus4.Text = "IDLE";
+            labelTestControlStatus4.ForeColor = Color.Black;
+            labelStatusOfSaveExcel4.Text = "IDLE";
+            labelStatusOfSaveServer4.Text = "IDLE";
+            labelStatusOfSaveExcel4.ForeColor = Color.Black;
+            labelStatusOfSaveServer4.ForeColor = Color.Black;
+        }
         private async Task SendTestResultToServer(int adapterIndex)
         {
             if (!checkBoxUpdateToLark.Checked)
@@ -1555,8 +2202,8 @@ namespace Tool_test_adapter_power
                               adapterIndex == 2 ? labelTestControlStatus2.Text : labelTestControlStatus3.Text,
                     Vmax_V = adapterIndex == 1 ? voltageMax : adapterIndex == 2 ? voltageMax2 : voltageMax3,
                     Vmin_V = adapterIndex == 1 ? voltageMin : adapterIndex == 2 ? voltageMin2 : voltageMin3,
-                    Imax_mA = adapterIndex == 1 ? currentMax : adapterIndex == 2 ? currentMax2 : currentMax3,
-                    Imin_mA = adapterIndex == 1 ? currentMin : adapterIndex == 2 ? currentMin2 : currentMin3,
+                    Imax_A = adapterIndex == 1 ? currentMax : adapterIndex == 2 ? currentMax2 : currentMax3,
+                    Imin_A = adapterIndex == 1 ? currentMin : adapterIndex == 2 ? currentMin2 : currentMin3,
                     Pmax_W = adapterIndex == 1 ? powerMax : adapterIndex == 2 ? powerMax2 : powerMax3,
                     Pmin_W = adapterIndex == 1 ? powerMin : adapterIndex == 2 ? powerMin2 : powerMin3,
                     Operator = textBoxOperatingWorkes.Text,
@@ -1668,8 +2315,8 @@ namespace Tool_test_adapter_power
                               adapterIndex == 2 ? labelTestControlStatus2.Text : labelTestControlStatus3.Text,
                     Vmax_V = adapterIndex == 1 ? voltageMax : adapterIndex == 2 ? voltageMax2 : voltageMax3,
                     Vmin_V = adapterIndex == 1 ? voltageMin : adapterIndex == 2 ? voltageMin2 : voltageMin3,
-                    Imax_mA = adapterIndex == 1 ? currentMax : adapterIndex == 2 ? currentMax2 : currentMax3,
-                    Imin_mA = adapterIndex == 1 ? currentMin : adapterIndex == 2 ? currentMin2 : currentMin3,
+                    Imax_A = adapterIndex == 1 ? currentMax : adapterIndex == 2 ? currentMax2 : currentMax3,
+                    Imin_A = adapterIndex == 1 ? currentMin : adapterIndex == 2 ? currentMin2 : currentMin3,
                     Pmax_W = adapterIndex == 1 ? powerMax : adapterIndex == 2 ? powerMax2 : powerMax3,
                     Pmin_W = adapterIndex == 1 ? powerMin : adapterIndex == 2 ? powerMin2 : powerMin3,
                     Operator = textBoxOperatingWorkes.Text,
@@ -2180,7 +2827,12 @@ namespace Tool_test_adapter_power
 
         private async void buttonRetrySaveData3_Click(object sender, EventArgs e)
         {
-            await RetryFailedRequestsForAdapter(2, textBoxIDAdapter2.Text);
+            await RetryFailedRequestsForAdapter(3, textBoxIDAdapter3.Text);
+        }
+
+        private async void buttonRetrySaveData4_Click(object sender, EventArgs e)
+        {
+            await RetryFailedRequestsForAdapter(4, textBoxIDAdapter4.Text);
         }
     }
 }

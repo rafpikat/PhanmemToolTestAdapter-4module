@@ -8,77 +8,96 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Tool_test_adapter_power.Properties {
-    
-    
+namespace Tool_test_adapter_power.Properties
+{
+
+
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.13.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
+    {
+
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-        
-        public static Settings Default {
-            get {
+
+        public static Settings Default
+        {
+            get
+            {
                 return defaultInstance;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string UartPort {
-            get {
+        public string UartPort
+        {
+            get
+            {
                 return ((string)(this["UartPort"]));
             }
-            set {
+            set
+            {
                 this["UartPort"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string UartBaudRate {
-            get {
+        public string UartBaudRate
+        {
+            get
+            {
                 return ((string)(this["UartBaudRate"]));
             }
-            set {
+            set
+            {
                 this["UartBaudRate"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string StoragePath {
-            get {
+        public string StoragePath
+        {
+            get
+            {
                 return ((string)(this["StoragePath"]));
             }
-            set {
+            set
+            {
                 this["StoragePath"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string APILark {
-            get {
+        public string APILark
+        {
+            get
+            {
                 return ((string)(this["APILark"]));
             }
-            set {
+            set
+            {
                 this["APILark"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool checkBoxEnableApi {
-            get {
+        public bool checkBoxEnableApi
+        {
+            get
+            {
                 return ((bool)(this["checkBoxEnableApi"]));
             }
-            set {
+            set
+            {
                 this["checkBoxEnableApi"] = value;
             }
         }
