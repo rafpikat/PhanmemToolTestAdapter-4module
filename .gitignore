@@ -12,3 +12,4 @@ Tool_test_adapter_power.csproj.user
 *.cache
 TestResults/
 .DS_Store
+obj/

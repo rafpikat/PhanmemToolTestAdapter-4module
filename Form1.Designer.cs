@@ -36,10 +36,15 @@ namespace Tool_test_adapter_power
             System.Text.ASCIIEncoding asciiEncoding1 = new System.Text.ASCIIEncoding();
             System.Text.DecoderReplacementFallback decoderReplacementFallback1 = new System.Text.DecoderReplacementFallback();
             System.Text.EncoderReplacementFallback encoderReplacementFallback1 = new System.Text.EncoderReplacementFallback();
+            this.checkBoxShowCalib = new CheckBox();
             label2 = new Label();
             UartStatus = new Label();
             CONNECTION = new GroupBox();
-            button1 = new Button();
+            // button1 = new Button();
+            // btnCalibCurrent = new Button();
+            btnCalib0V = new Button();
+            btnCalib24V = new Button();
+            cboCalibTarget = new ComboBox();
             comboBoxBaurateUart = new ComboBox();
             btnConnect = new Button();
             label1 = new Label();
@@ -289,7 +294,7 @@ namespace Tool_test_adapter_power
             // 
             UartStatus.AutoSize = true;
             UartStatus.ForeColor = Color.Red;
-            UartStatus.Location = new Point(6, 91);
+            UartStatus.Location = new Point(6, 155);
             UartStatus.Name = "UartStatus";
             UartStatus.Size = new Size(93, 15);
             UartStatus.TabIndex = 3;
@@ -298,7 +303,10 @@ namespace Tool_test_adapter_power
             // CONNECTION
             // 
             CONNECTION.BackColor = SystemColors.ButtonHighlight;
-            CONNECTION.Controls.Add(button1);
+            CONNECTION.Controls.Add(this.checkBoxShowCalib);
+            CONNECTION.Controls.Add(this.btnCalib0V);
+            CONNECTION.Controls.Add(this.btnCalib24V);
+            CONNECTION.Controls.Add(this.cboCalibTarget);
             CONNECTION.Controls.Add(comboBoxBaurateUart);
             CONNECTION.Controls.Add(btnConnect);
             CONNECTION.Controls.Add(label1);
@@ -312,15 +320,92 @@ namespace Tool_test_adapter_power
             CONNECTION.TabStop = false;
             CONNECTION.Text = "CONNECTION";
             // 
-            // button1
+            // checkBoxShowCalib
             // 
-            button1.Location = new Point(160, 89);
-            button1.Name = "button1";
-            button1.Size = new Size(100, 23);
-            button1.TabIndex = 8;
-            button1.Text = "Calib";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            
+            // Thiết lập các thông số cơ bản cho ComboBox
+            this.cboCalibTarget.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCalibTarget.FormattingEnabled = true;
+            this.cboCalibTarget.Items.AddRange(new object[] {
+                "Tất cả các mạch",
+                "Mạch 1",
+                "Mạch 2",
+                "Mạch 3",
+                "Mạch 4"});
+            this.cboCalibTarget.Location = new System.Drawing.Point(160, 110); // Chỉnh lại vị trí cho phù hợp
+            this.cboCalibTarget.Name = "cboCalibTarget";
+            this.cboCalibTarget.Size = new System.Drawing.Size(100, 23);
+            this.cboCalibTarget.TabIndex = 13;
+            this.cboCalibTarget.SelectedIndex = 0; // Mặc định chọn "Tất cả các mạch"
+
+            this.checkBoxShowCalib.AutoSize = true;
+            this.checkBoxShowCalib.Location = new Point(160, 60); // Đặt phía trên nút Calib
+            this.checkBoxShowCalib.Name = "ShowCalib";
+            this.checkBoxShowCalib.Size = new Size(76, 19);
+            this.checkBoxShowCalib.TabIndex = 9;
+            this.checkBoxShowCalib.Text = "ShowCalib";
+            this.checkBoxShowCalib.UseVisualStyleBackColor = true;
+            this.checkBoxShowCalib.CheckedChanged += new System.EventHandler(this.checkBoxShowCalib_CheckedChanged);
+
+            // Label mô tả cho ô Điện áp
+            this.lblVoltDescription = new System.Windows.Forms.Label();
+            this.lblVoltDescription.Text = "V thực tế (V):";
+            this.lblVoltDescription.Location = new System.Drawing.Point(20, 110); // Đặt bên trái ô nhập V
+            this.lblVoltDescription.AutoSize = true;
+
+            // TextBox nhập điện áp thực tế
+            this.txtActualV = new System.Windows.Forms.TextBox();
+            this.txtActualV.Location = new System.Drawing.Point(115, 110);
+            this.txtActualV.Size = new System.Drawing.Size(40, 23);
+            this.txtActualV.Text = "24.0"; // Mặc định
+
+            // Label mô tả cho ô Dòng điện
+            this.lblAmpDescription = new System.Windows.Forms.Label();
+            this.lblAmpDescription.Text = "I thực tế (A):";
+            this.lblAmpDescription.Location = new System.Drawing.Point(20, 135); // Đặt giữa ô V và ô I
+            this.lblAmpDescription.AutoSize = true;
+
+            // TextBox nhập dòng điện thực tế
+            this.txtActualI = new System.Windows.Forms.TextBox();
+            this.txtActualI.Location = new System.Drawing.Point(115, 135);
+            this.txtActualI.Size = new System.Drawing.Size(40, 23);
+            this.txtActualI.Text = "2.0"; // Mặc định
+
+            this.CONNECTION.Controls.Add(this.lblVoltDescription);
+            this.CONNECTION.Controls.Add(this.lblAmpDescription);
+            this.CONNECTION.Controls.Add(this.txtActualV);
+            this.CONNECTION.Controls.Add(this.txtActualI);
+
+            
+            // 
+            // btnCalib0V
+            // 
+            this.btnCalib0V.Location = new Point(50, 80);
+            this.btnCalib0V.Name = "btnCalib0V";
+            this.btnCalib0V.Size = new Size(100, 23);
+            this.btnCalib0V.TabIndex = 11;
+            this.btnCalib0V.Text = "Calib Zero (0V-0A)";
+            this.btnCalib0V.UseVisualStyleBackColor = true;
+            this.btnCalib0V.Click += new System.EventHandler(this.btnCalib0V_Click);
+
+            // 
+            // btnCalib24V
+            // 
+            this.btnCalib24V.Location = new Point(160, 80);
+            this.btnCalib24V.Name = "btnCalib24V";
+            this.btnCalib24V.Size = new Size(100, 23);
+            this.btnCalib24V.TabIndex = 12;
+            this.btnCalib24V.Text = "Calib Scale (Custom)";
+            this.btnCalib24V.UseVisualStyleBackColor = true;
+            this.btnCalib24V.Click += new System.EventHandler(this.btnCalib24V_Click);
+
+            // Thêm vào Controls của CONNECTION
+            this.CONNECTION.Controls.Add(this.btnCalib0V);
+            this.CONNECTION.Controls.Add(this.btnCalib24V);
+
+            // Đừng quên tăng kích thước GroupBox CONNECTION để chứa đủ các nút
+            this.CONNECTION.Size = new Size(280, 180);
+
             // 
             // comboBoxBaurateUart
             // 
@@ -1057,7 +1142,7 @@ namespace Tool_test_adapter_power
             label60.Name = "label60";
             label60.Size = new Size(118, 15);
             label60.TabIndex = 49;
-            label60.Text = "Người thực hiện test:";
+            label60.Text = "Người thực hiện:";
             // 
             // textBoxOperatingWorkes
             // 
@@ -1184,7 +1269,7 @@ namespace Tool_test_adapter_power
             // labelStatusOfSaveExcel2
             // 
             labelStatusOfSaveExcel2.AutoSize = true;
-            labelStatusOfSaveExcel2.Location = new Point(220, 32);
+            labelStatusOfSaveExcel2.Location = new Point(230, 32);
             labelStatusOfSaveExcel2.Name = "labelStatusOfSaveExcel2";
             labelStatusOfSaveExcel2.Size = new Size(30, 15);
             labelStatusOfSaveExcel2.TabIndex = 57;
@@ -2361,9 +2446,9 @@ namespace Tool_test_adapter_power
             Control_all.Controls.Add(btnStopProcessTestAll);
             Control_all.Controls.Add(btnRestartProcessTestAll);
             Control_all.Controls.Add(btnStartProcessTestAll);
-            Control_all.Location = new Point(10, 159);
+            Control_all.Location = new Point(10, 200);
             Control_all.Name = "Control_all";
-            Control_all.Size = new Size(2000, 100);
+            Control_all.Size = new Size(2000, 70);
             Control_all.TabIndex = 14;
             Control_all.TabStop = false;
             Control_all.Text = "Bảng điều khiển quá trình test";
@@ -2508,7 +2593,7 @@ namespace Tool_test_adapter_power
         private Label label2;
         private Label UartStatus;
         private GroupBox CONNECTION;
-        private NumericUpDown numericUpDown1;
+        private CheckBox checkBoxShowCalib;
         private ComboBox comboBoxPortUart;
         private Button btnConnect;
         private Label label1;
@@ -2638,7 +2723,6 @@ namespace Tool_test_adapter_power
         private ProgressBar progressBarTest3;
         private Button btnRestartProcessTest3;
         private Button btnStartProcessTest3;
-        private Button button1;
         private CheckBox checkBoxTestAdapter1;
         private CheckBox checkBoxTestAdapter2;
         private CheckBox checkBoxTestAdapter3;
@@ -2720,5 +2804,15 @@ namespace Tool_test_adapter_power
         private Button btnRestartProcessTest4;
         private Button btnStartProcessTest4;
         private CheckBox checkBoxTestAdapter4;
+        private Button btnCalib0V;
+        private Button btnCalib24V;
+
+        private System.Windows.Forms.TextBox txtActualV;
+        private System.Windows.Forms.TextBox txtActualI;
+        private System.Windows.Forms.Label lblV;
+        private System.Windows.Forms.Label lblI;
+
+        private System.Windows.Forms.Label lblVoltDescription;
+        private System.Windows.Forms.Label lblAmpDescription;
     }
 }

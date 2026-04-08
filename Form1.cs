@@ -18,7 +18,7 @@ namespace Tool_test_adapter_power
     {
 
         private List<byte> buffer = new List<byte>();
-
+        private ComboBox cboCalibTarget;
         //Adapter 1
         private float current = 0;
         private float currentMax = 0;
@@ -89,7 +89,7 @@ namespace Tool_test_adapter_power
         private System.Windows.Forms.Timer testTimer2 = new System.Windows.Forms.Timer();
         private System.Windows.Forms.Timer testTimer3 = new System.Windows.Forms.Timer();
         private System.Windows.Forms.Timer testTimer4 = new System.Windows.Forms.Timer();
-        //private StreamWriter logFile = null;
+        private System.Windows.Forms.Timer uiDisplayTimer = new System.Windows.Forms.Timer();
         private bool isLogging = false;
         private string[] _lastPorts = new string[0];
         private bool _connectionLostNotified = false; // Biến kiểm soát thông báo mất kết nối
@@ -139,8 +139,6 @@ namespace Tool_test_adapter_power
             this.Load += Form1_Load;
             this.Resize += Form1_Resize;
 
-            // this.AutoSize = true;
-            // this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             // Kích hoạt nhận sự kiện bàn phím
             this.KeyPreview = true;
             this.KeyPress += Form1_KeyPress;
@@ -178,8 +176,11 @@ namespace Tool_test_adapter_power
             testTimer4.Tick += TestTimer4_Tick;
             serialPort1.ErrorReceived += SerialPort_ErrorReceived;
 
+            uiDisplayTimer.Interval = 100; // Cập nhật 10 lần mỗi giây là đủ cho mắt người
+            uiDisplayTimer.Tick += UiDisplayTimer_Tick;
+            uiDisplayTimer.Start();
 
-            LoadUartSettings();
+            LoadUartSettings(); 
             // Đảm bảo trạng thái ban đầu
             UpdateUartControlsState();
             connectionCheckTimer.Start();
@@ -235,6 +236,89 @@ namespace Tool_test_adapter_power
 
             // Trigger resize to apply custom layouts on startup
             Form1_Resize(this, EventArgs.Empty);
+            btnCalib0V.Visible = false;
+            btnCalib24V.Visible = false;
+            checkBoxShowCalib.Checked = false;
+
+            Label[] statusLabels = { labelTestControlStatus1, labelTestControlStatus2, labelTestControlStatus3, labelTestControlStatus4 };
+
+            foreach (var lbl in statusLabels)
+            {
+                if (lbl != null)
+                {
+                    lbl.AutoSize = false; // Khóa kích thước để tuân thủ Size(140, 50)
+                    lbl.TextAlign = ContentAlignment.MiddleCenter; // Căn giữa tâm
+
+                    // QUAN TRỌNG: Đẩy chữ lên trên bằng Padding đáy (Bottom)
+                    // Vì Font 30pt có phần "ascent" rất cao, bạn cần số lớn để bù trừ.
+                    // Nếu vẫn thấy chìm, hãy tăng số 12 lên 15 hoặc 18.
+                    lbl.Padding = new Padding(0, 0, 0, 1);
+
+                    // Giúp render các font kích thước lớn mượt và chuẩn vị trí hơn
+                    lbl.UseCompatibleTextRendering = true;
+                }
+            }
+        }
+
+        private void UiDisplayTimer_Tick(object sender, EventArgs e)
+        {
+            if (this.IsDisposed) return;
+
+            // Cập nhật Nguồn 1
+            textBoxVoltage1.Text = voltage.ToString("F3");
+            textBoxCurrent1.Text = current.ToString("F3");
+            textBoxPower1.Text = power.ToString("F3");
+            if (isTesting1)
+            {
+                textBoxVoltageMax1.Text = voltageMax.ToString("F3");
+                textBoxVoltageMin1.Text = voltageMin.ToString("F3");
+                textBoxCurrentMax1.Text = currentMax.ToString("F3");
+                textBoxCurrentMin1.Text = currentMin.ToString("F3");
+                textBoxPowerMax1.Text = (voltageMax * currentMax).ToString("F3");
+                textBoxPowerMin1.Text = (voltageMin * currentMin).ToString("F3");
+            }
+
+            // Cập nhật Nguồn 2
+            textBoxVoltage2.Text = voltage2.ToString("F3");
+            textBoxCurrent2.Text = current2.ToString("F3");
+            textBoxPower2.Text = power2.ToString("F3");
+            if (isTesting2)
+            {
+                textBoxVoltageMax2.Text = voltageMax2.ToString("F3");
+                textBoxVoltageMin2.Text = voltageMin2.ToString("F3");
+                textBoxCurrentMax2.Text = currentMax2.ToString("F3");
+                textBoxCurrentMin2.Text = currentMin2.ToString("F3");
+                textBoxPowerMax2.Text = (voltageMax2 * currentMax2).ToString("F3");
+                textBoxPowerMin2.Text = (voltageMin2 * currentMin2).ToString("F3");
+            }
+
+            // Cập nhật Nguồn 3
+            textBoxVoltage3.Text = voltage3.ToString("F3");
+            textBoxCurrent3.Text = current3.ToString("F3");
+            textBoxPower3.Text = power3.ToString("F3");
+            if (isTesting3)
+            {
+                textBoxVoltageMax3.Text = voltageMax3.ToString("F3");
+                textBoxVoltageMin3.Text = voltageMin3.ToString("F3");
+                textBoxCurrentMax3.Text = currentMax3.ToString("F3");
+                textBoxCurrentMin3.Text = currentMin3.ToString("F3");
+                textBoxPowerMax3.Text = (voltageMax3 * currentMax3).ToString("F3");
+                textBoxPowerMin3.Text = (voltageMin3 * currentMin3).ToString("F3");
+            }
+
+            // Cập nhật Nguồn 4
+            textBoxVoltage4.Text = voltage4.ToString("F3");
+            textBoxCurrent4.Text = current4.ToString("F3");
+            textBoxPower4.Text = power4.ToString("F3");
+            if (isTesting4)
+            {
+                textBoxVoltageMax4.Text = voltageMax4.ToString("F3");
+                textBoxVoltageMin4.Text = voltageMin4.ToString("F3");
+                textBoxCurrentMax4.Text = currentMax4.ToString("F3");
+                textBoxCurrentMin4.Text = currentMin4.ToString("F3");
+                textBoxPowerMax4.Text = (voltageMax4 * currentMax4).ToString("F3");
+                textBoxPowerMin4.Text = (voltageMin4 * currentMin4).ToString("F3");
+            }
         }
 
         private void InitializeAdapterInputs()
@@ -270,32 +354,89 @@ namespace Tool_test_adapter_power
             {
                 int connectionRight = CONNECTION.Location.X + CONNECTION.Width;
                 int availableSpace = this.ClientSize.Width - connectionRight - marginRight - (3 * gapBetween);
-                // 3 gaps: CONNECTION-groupBox4, groupBox4-groupBox6, groupBox6-rightEdge
 
-                // Split available space equally between groupBox4 and groupBox6
+                // Chia đôi không gian cho 2 GroupBox
                 int halfSpace = availableSpace / 2;
+                int groupBox4Width = Math.Max(halfSpace, 400);
+                int groupBox6Width = Math.Max(halfSpace, 450);
 
-                // Set minimum widths
-                int groupBox4Width = Math.Max(halfSpace, 300);
-                int groupBox6Width = Math.Max(halfSpace, 400);
-
-                // Position and resize groupBox4
+                // --- XỬ LÝ GROUPBOX 4 (CÀI ĐẶT THÔNG SỐ TEST) ---
                 int groupBox4X = connectionRight + gapBetween;
                 groupBox4.Location = new Point(groupBox4X, groupBox4.Location.Y);
                 groupBox4.Size = new Size(groupBox4Width, groupBox4.Height);
 
-                // Resize groupBox4's child controls proportionally
-                float groupBox4ScaleFactor = groupBox4Width / 439f; // Original width was 439
-                ResizeControlsRecursively(groupBox4, groupBox4ScaleFactor);
+                // Scale các input bên trái, Neo nút bấm bên phải
+                int g4RightMargin = 15;
+                int g4ButtonWidth = Math.Max((int)(groupBox4Width * 0.2f), 80);
+                int g4ButtonX = groupBox4Width - g4ButtonWidth - g4RightMargin;
 
-                // Position and resize groupBox6
-                int groupBox6X = groupBox4X + groupBox4Width + gapBetween;
+                foreach (Control ctrl in groupBox4.Controls)
+                {
+                    if (ctrl == btnSave || ctrl == btnImport || ctrl == labelNameFileConfigTest)
+                    {
+                        // Neo các nút và nhãn tên file về bên phải
+                        ctrl.Location = new Point(g4ButtonX, ctrl.Location.Y);
+                        ctrl.Width = g4ButtonWidth;
+                    }
+                    else
+                    {
+                        // Scale tỷ lệ các Label và DomainUpDown bên trái
+                        if (ctrl.Tag == null || !(ctrl.Tag is Rectangle)) ctrl.Tag = ctrl.Bounds;
+                        float g4InputScale = (groupBox4Width * 0.7f) / 320f;
+                        Rectangle org = (Rectangle)ctrl.Tag;
+                        ctrl.Bounds = new Rectangle((int)(org.X * g4InputScale), org.Y, (int)(org.Width * g4InputScale), org.Height);
+                    }
+                }
+
+                // --- XỬ LÝ GROUPBOX 6 (CÀI ĐẶT LƯU TRỮ DỮ LIỆU) ---
+                int groupBox6X = groupBox4.Location.X + groupBox4.Width + gapBetween;
                 groupBox6.Location = new Point(groupBox6X, groupBox6.Location.Y);
                 groupBox6.Size = new Size(groupBox6Width, groupBox6.Height);
 
-                // Resize groupBox6's child controls proportionally
-                float groupBox6ScaleFactor = groupBox6Width / 584f; // Original width was 584
-                ResizeControlsRecursively(groupBox6, groupBox6ScaleFactor);
+                int g6RightMargin = 15;
+                int g6LeftLabelX = 10;
+                int g6InputX = 135; // Cột mốc X cho các ô nhập liệu
+                int g6ButtonWidth = 140;
+                int g6RightButtonsX = groupBox6.Width - g6ButtonWidth - g6RightMargin;
+
+                // --- DÒNG 1: ĐƯỜNG DẪN EXCEL ---
+                // Hạ thấp TextBox xuống 3px so với Label (33 -> 36) để ngang hàng chữ
+                label33.Location = new Point(g6LeftLabelX, 33);
+                textBoxPathData.Location = new Point(g6InputX, 36);
+                textBoxPathData.Width = groupBox6.Width - g6InputX - g6RightMargin;
+
+                // Nút Browse căn chỉnh theo dòng của TextBox đầu tiên
+                btnBrowsePart.Location = new Point(groupBox6.Width - btnBrowsePart.Width - g6RightMargin, 65);
+
+                // --- DÒNG 2: LINK API ---
+                // Label 103 -> TextBox 106
+                label45.Location = new Point(g6LeftLabelX, 103);
+                API_Lark.Location = new Point(g6InputX, 106);
+                API_Lark.Width = groupBox6.Width - g6InputX - g6RightMargin;
+
+                // --- DÒNG 3: NGƯỜI THỰC HIỆN ---
+                // Label 143 -> TextBox 146
+                label60.Location = new Point(g6LeftLabelX, 143);
+                textBoxOperatingWorkes.Location = new Point(g6InputX, 146);
+
+                int checkboxWidth = 165; // Tăng một chút để không bị mất chữ
+                textBoxOperatingWorkes.Width = groupBox6.Width - g6InputX - checkboxWidth - g6RightMargin - 10;
+
+                // Checkbox căn theo dòng của TextBox (146 - 2px để tâm checkbox khớp tâm chữ)
+                checkBoxUpdateToLark.Location = new Point(groupBox6.Width - checkboxWidth - g6RightMargin, 144);
+
+                // --- DÒNG 4: CÔNG ĐOẠN TEST ---
+                // Label 185 -> ComboBox 188
+                label61.Location = new Point(g6LeftLabelX, 185);
+                comboBoxTestingStage.Location = new Point(g6InputX, 188);
+                comboBoxTestingStage.Width = textBoxOperatingWorkes.Width;
+
+                // Các nút ghi dữ liệu neo bên phải
+                btnStartRecording.Location = new Point(g6RightButtonsX, 184);
+                btnStartRecording.Width = g6ButtonWidth;
+
+                btnStopRecording.Location = new Point(g6RightButtonsX, 218);
+                btnStopRecording.Width = g6ButtonWidth;
             }
 
             // === ADAPTER GROUPBOXES ROW ===
@@ -432,9 +573,6 @@ namespace Tool_test_adapter_power
 
         private void LayoutMeasurementPanel(GroupBox measurementPanel, int panelWidth)
         {
-            // Debug: Show message to verify this method is being called
-            // MessageBox.Show($"LayoutMeasurementPanel called for: {measurementPanel.Name}, Text: '{measurementPanel.Text}'");
-
             // Custom layout for measurement panel with 20px gaps after labels
             const int leftMargin = 3;
             const int labelGap = 20; // Gap after labels (Điện áp, Dòng điện, Công suất)
@@ -602,13 +740,18 @@ namespace Tool_test_adapter_power
 
             if (labelStatus != null && textBoxID != null)
             {
-                // Calculate widths
-                // Keep original ratio or split 50/50? 
-                // Based on Designer: label is 140, textbox is 130. Total ~270.
-                // Ratio: Label ~52%, TextBox ~48%
-
                 int labelWidth = (int)(availableWidth * 0.52);
                 int textBoxWidth = availableWidth - labelWidth - gap;
+
+                if (labelStatus is Label lbl)
+                {
+                    lbl.AutoSize = false;
+                    lbl.TextAlign = ContentAlignment.MiddleCenter;
+                    // Dùng Padding đáy (Bottom) để đẩy chữ lên cao
+                    // Nếu vẫn thấy chìm, hãy tăng số 10 này lên 15 hoặc 20
+                    lbl.Padding = new Padding(0, 0, 0, 10);
+                    lbl.UseCompatibleTextRendering = true;
+                }
 
                 // Update positions and sizes
                 labelStatus.Location = new Point(sideMargin, 35); // Keep Y=35 as per designer
@@ -670,6 +813,9 @@ namespace Tool_test_adapter_power
 
             foreach (Control control in parent.Controls)
             {
+                if (control == btnSave || control == btnImport || control == labelNameFileConfigTest)
+                    continue;
+
                 // Store original bounds if not already stored
                 if (control.Tag == null || !(control.Tag is Rectangle))
                 {
@@ -977,48 +1123,58 @@ namespace Tool_test_adapter_power
 
         private void ProcessBuffer()
         {
-            if (buffer.Count > 10000) // Giới hạn kích thước buffer
+            try
             {
-                buffer.Clear();
-                return;
+                // Nếu buffer quá lớn (do tích tụ lỗi), xóa bớt để giải phóng bộ nhớ
+                if (buffer.Count > 5000) { buffer.Clear(); return; }
+
+                while (buffer.Count >= 8)
+                {
+                    // Tìm header 0x4C 0x4D
+                    if (buffer[0] != 0x4C || buffer[1] != 0x4D)
+                    {
+                        buffer.RemoveAt(0);
+                        continue;
+                    }
+
+                    byte cmd = buffer[2];
+                    byte len = buffer[3];
+                    int fullLength = 4 + len + 1; // Header(2) + Cmd(1) + Len(1) + Data(len) + XOR(1)
+
+                    if (buffer.Count < fullLength) return; // Chưa nhận đủ gói
+
+                    // Tính XOR trực tiếp trên List, không tạo mảng mới
+                    byte xorCalculated = 0;
+                    for (int i = 4; i < fullLength - 1; i++)
+                    {
+                        xorCalculated ^= buffer[i];
+                    }
+
+                    // Kiểm tra mã lỗi XOR
+                    if (xorCalculated == buffer[fullLength - 1])
+                    {
+                        byte adapter = buffer[4];
+
+                        // Lấy 4 byte dữ liệu float (Big Endian)
+                        byte[] floatBytes = new byte[4];
+                        floatBytes[0] = buffer[8]; // Đảo ngược ngay khi lấy để thành Little Endian
+                        floatBytes[1] = buffer[7];
+                        floatBytes[2] = buffer[6];
+                        floatBytes[3] = buffer[5];
+
+                        float value = BitConverter.ToSingle(floatBytes, 0);
+
+                        HandlePacket(cmd, value, adapter);
+                    }
+
+                    // Xử lý xong thì xóa gói đó khỏi buffer
+                    buffer.RemoveRange(0, fullLength);
+                }
             }
-            while (buffer.Count >= 8) // bản tin tối thiểu
+            catch (Exception ex)
             {
-                int index = buffer.FindIndex(0, b => b == 0x4C);
-                if (index < 0 || index + 1 >= buffer.Count || buffer[index + 1] != 0x4D)
-                {
-                    buffer.RemoveAt(0);
-                    continue;
-                }
-
-                if (buffer.Count < index + 5) return;
-
-                byte cmd = buffer[index + 2];
-                byte len = buffer[index + 3];
-                int fullLength = 2 + 1 + 1 + len + 1;
-
-                if (buffer.Count < index + fullLength) return;
-
-                byte[] packet = buffer.Skip(index).Take(fullLength).ToArray();
-
-                byte xor = 0;
-                for (int i = index + 4; i < fullLength - 1; i++)
-                    xor ^= packet[i];
-
-                if (xor == packet[fullLength - 1])
-                {
-                    float value = ParseFloatBigEndian(packet.Skip(5).Take(len - 1).ToArray());
-                    byte adapter = packet[index + 4];
-                    HandlePacket(cmd, value, adapter);
-                    //if (isLogging && logFile != null)
-                    //{
-                    //    string logEntry = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] CMD: {cmd}, Data: {BitConverter.ToString(packet)}\n";
-                    //    logFile.Write(logEntry);
-                    //    logFile.Flush(); // Đảm bảo ghi ngay lập tức
-                    //}
-                }
-
-                buffer.RemoveRange(0, index + fullLength);
+                // Ghi lỗi vào file thay vì treo app
+                try { File.AppendAllText("error_log.txt", DateTime.Now + ": " + ex.Message + "\n"); } catch { }
             }
         }
 
@@ -1031,269 +1187,93 @@ namespace Tool_test_adapter_power
 
         private void HandlePacket(byte cmd, float value, byte adapter)
         {
-            this.Invoke(new Action(() =>
+            // Không dùng Invoke ở đây để tránh làm treo luồng UI khi dữ liệu về dồn dập
+            switch (cmd)
             {
-                switch (cmd)
-                {
-                    case 0x01:
+                case 0x01: // Voltage
+                    if (adapter == 0x01)
+                    {
+                        voltage = value;
+                        if (isTesting1)
                         {
-                            if (adapter == 0x01)
-                            {
-                                voltage = value;
-                                if (isTesting1)
-                                {
-
-                                    if (isFirstVoltage)
-                                    {
-                                        voltageMax = value;
-                                        voltageMin = value;
-                                        isFirstVoltage = false;
-                                    }
-                                    else
-                                    {
-                                        voltageMax = Math.Max(voltageMax, value);
-                                        voltageMin = Math.Min(voltageMin, value);
-                                    }
-
-                                    textBoxVoltage1.Text = value.ToString("F3");
-                                    textBoxVoltageMax1.Text = voltageMax.ToString("F3");
-                                    textBoxVoltageMin1.Text = voltageMin.ToString("F3");
-                                    powerMax = voltageMax * currentMax;
-                                    powerMin = voltageMin * currentMin;
-                                    textBoxPowerMax1.Text = powerMax.ToString("F3");
-                                    textBoxPowerMin1.Text = powerMin.ToString("F3");
-
-                                }
-
-
-                            }
-                            else if (adapter == 0x02)
-                            {
-                                voltage2 = value;
-                                if (isTesting2)
-                                {
-
-                                    if (isFirstVoltage2)
-                                    {
-                                        voltageMax2 = value;
-                                        voltageMin2 = value;
-                                        isFirstVoltage2 = false;
-                                    }
-                                    else
-                                    {
-                                        voltageMax2 = Math.Max(voltageMax2, value);
-                                        voltageMin2 = Math.Min(voltageMin2, value);
-                                    }
-
-                                    textBoxVoltage2.Text = value.ToString("F3");
-                                    textBoxVoltageMax2.Text = voltageMax2.ToString("F3");
-                                    textBoxVoltageMin2.Text = voltageMin2.ToString("F3");
-                                    powerMax2 = voltageMax2 * currentMax2;
-                                    powerMin2 = voltageMin2 * currentMin2;
-                                    textBoxPowerMax2.Text = powerMax2.ToString("F3");
-                                    textBoxPowerMin2.Text = powerMin2.ToString("F3");
-
-                                }
-                            }
-                            else if (adapter == 0x03)
-                            {
-                                voltage3 = value;
-
-                                if (isTesting3)
-                                {
-
-                                    if (isFirstVoltage3)
-                                    {
-                                        voltageMax3 = value;
-                                        voltageMin3 = value;
-                                        isFirstVoltage3 = false;
-                                    }
-                                    else
-                                    {
-                                        voltageMax3 = Math.Max(voltageMax3, value);
-                                        voltageMin3 = Math.Min(voltageMin3, value);
-                                    }
-
-                                    textBoxVoltage3.Text = value.ToString("F3");
-                                    textBoxVoltageMax3.Text = voltageMax3.ToString("F3");
-                                    textBoxVoltageMin3.Text = voltageMin3.ToString("F3");
-                                    powerMax3 = voltageMax3 * currentMax3;
-                                    powerMin3 = voltageMin3 * currentMin3;
-                                    textBoxPowerMax3.Text = powerMax3.ToString("F3");
-                                    textBoxPowerMin3.Text = powerMin3.ToString("F3");
-
-                                }
-                            }
-                            else if (adapter == 0x04)
-                            {
-                                voltage4 = value;
-
-                                if (isTesting4)
-                                {
-
-                                    if (isFirstVoltage4)
-                                    {
-                                        voltageMax4 = value;
-                                        voltageMin4 = value;
-                                        isFirstVoltage4 = false;
-                                    }
-                                    else
-                                    {
-                                        voltageMax4 = Math.Max(voltageMax4, value);
-                                        voltageMin4 = Math.Min(voltageMin4, value);
-                                    }
-
-                                    textBoxVoltage4.Text = value.ToString("F3");
-                                    textBoxVoltageMax4.Text = voltageMax4.ToString("F3");
-                                    textBoxVoltageMin4.Text = voltageMin4.ToString("F3");
-                                    powerMax4 = voltageMax4 * currentMax4;
-                                    powerMin4 = voltageMin4 * currentMin4;
-                                    textBoxPowerMax4.Text = powerMax4.ToString("F3");
-                                    textBoxPowerMin4.Text = powerMin4.ToString("F3");
-
-                                }
-                            }
-                            break;
+                            if (isFirstVoltage) { voltageMax = value; voltageMin = value; isFirstVoltage = false; }
+                            else { voltageMax = Math.Max(voltageMax, value); voltageMin = Math.Min(voltageMin, value); }
                         }
-                    case 0x02:
+                    }
+                    else if (adapter == 0x02)
+                    {
+                        voltage2 = value;
+                        if (isTesting2)
                         {
-                            if (adapter == 0x01)
-                            {
-                                current = value;
-
-                                if (isTesting1)
-                                {
-                                    if (isFirstCurrent)
-                                    {
-                                        currentMax = value;
-                                        currentMin = value;
-                                        isFirstCurrent = false;
-                                    }
-                                    else
-                                    {
-                                        currentMax = Math.Max(currentMax, value);
-                                        currentMin = Math.Min(currentMin, value);
-                                    }
-
-                                    textBoxCurrent1.Text = value.ToString("F3");
-                                    textBoxCurrentMax1.Text = currentMax.ToString("F3");
-                                    textBoxCurrentMin1.Text = currentMin.ToString("F3");
-                                    powerMax = voltageMax * currentMax;
-                                    powerMin = voltageMin * currentMin;
-                                    textBoxPowerMax1.Text = powerMax.ToString("F3");
-                                    textBoxPowerMin1.Text = powerMin.ToString("F3");
-                                }
-                            }
-                            else if (adapter == 0x02)
-                            {
-                                current2 = value;
-                                if (isTesting2)
-                                {
-                                    if (isFirstCurrent2)
-                                    {
-                                        currentMax2 = value;
-                                        currentMin2 = value;
-                                        isFirstCurrent2 = false;
-                                    }
-                                    else
-                                    {
-                                        currentMax2 = Math.Max(currentMax2, value);
-                                        currentMin2 = Math.Min(currentMin2, value);
-                                    }
-
-                                    textBoxCurrent2.Text = value.ToString("F3");
-                                    textBoxCurrentMax2.Text = currentMax2.ToString("F3");
-                                    textBoxCurrentMin2.Text = currentMin2.ToString("F3");
-                                    powerMax2 = voltageMax2 * currentMax2;
-                                    powerMin2 = voltageMin2 * currentMin2;
-                                    textBoxPowerMax2.Text = powerMax2.ToString("F3");
-                                    textBoxPowerMin2.Text = powerMin2.ToString("F3");
-                                }
-                            }
-                            else if (adapter == 0x03)
-                            {
-                                current3 = value;
-                                if (isTesting3)
-                                {
-                                    if (isFirstCurrent3)
-                                    {
-                                        currentMax3 = value;
-                                        currentMin3 = value;
-                                        isFirstCurrent3 = false;
-                                    }
-                                    else
-                                    {
-                                        currentMax3 = Math.Max(currentMax3, value);
-                                        currentMin3 = Math.Min(currentMin3, value);
-                                    }
-
-                                    textBoxCurrent3.Text = value.ToString("F3");
-                                    textBoxCurrentMax3.Text = currentMax3.ToString("F3");
-                                    textBoxCurrentMin3.Text = currentMin3.ToString("F3");
-                                    powerMax3 = voltageMax3 * currentMax3;
-                                    powerMin3 = voltageMin3 * currentMin3;
-                                    textBoxPowerMax3.Text = powerMax3.ToString("F3");
-                                    textBoxPowerMin3.Text = powerMin3.ToString("F3");
-                                }
-
-                            }
-                            else if (adapter == 0x04)
-                            {
-                                current4 = value;
-                                if (isTesting4)
-                                {
-                                    if (isFirstCurrent4)
-                                    {
-                                        currentMax4 = value;
-                                        currentMin4 = value;
-                                        isFirstCurrent4 = false;
-                                    }
-                                    else
-                                    {
-                                        currentMax4 = Math.Max(currentMax4, value);
-                                        currentMin4 = Math.Min(currentMin4, value);
-                                    }
-
-                                    textBoxCurrent4.Text = value.ToString("F3");
-                                    textBoxCurrentMax4.Text = currentMax4.ToString("F3");
-                                    textBoxCurrentMin4.Text = currentMin4.ToString("F3");
-                                    powerMax4 = voltageMax4 * currentMax4;
-                                    powerMin4 = voltageMin4 * currentMin4;
-                                    textBoxPowerMax4.Text = powerMax4.ToString("F3");
-                                    textBoxPowerMin4.Text = powerMin4.ToString("F3");
-                                }
-                            }
-                            break;
+                            if (isFirstVoltage2) { voltageMax2 = value; voltageMin2 = value; isFirstVoltage2 = false; }
+                            else { voltageMax2 = Math.Max(voltageMax2, value); voltageMin2 = Math.Min(voltageMin2, value); }
                         }
+                    }
+                    else if (adapter == 0x03)
+                    {
+                        voltage3 = value;
+                        if (isTesting3)
+                        {
+                            if (isFirstVoltage3) { voltageMax3 = value; voltageMin3 = value; isFirstVoltage3 = false; }
+                            else { voltageMax3 = Math.Max(voltageMax3, value); voltageMin3 = Math.Min(voltageMin3, value); }
+                        }
+                    }
+                    else if (adapter == 0x04)
+                    {
+                        voltage4 = value;
+                        if (isTesting4)
+                        {
+                            if (isFirstVoltage4) { voltageMax4 = value; voltageMin4 = value; isFirstVoltage4 = false; }
+                            else { voltageMax4 = Math.Max(voltageMax4, value); voltageMin4 = Math.Min(voltageMin4, value); }
+                        }
+                    }
+                    break;
 
-                    default:
-                        break;
-                }
+                case 0x02: // Current
+                    if (adapter == 0x01)
+                    {
+                        current = value;
+                        if (isTesting1)
+                        {
+                            if (isFirstCurrent) { currentMax = value; currentMin = value; isFirstCurrent = false; }
+                            else { currentMax = Math.Max(currentMax, value); currentMin = Math.Min(currentMin, value); }
+                        }
+                    }
+                    else if (adapter == 0x02)
+                    {
+                        current2 = value;
+                        if (isTesting2)
+                        {
+                            if (isFirstCurrent2) { currentMax2 = value; currentMin2 = value; isFirstCurrent2 = false; }
+                            else { currentMax2 = Math.Max(currentMax2, value); currentMin2 = Math.Min(currentMin2, value); }
+                        }
+                    }
+                    else if (adapter == 0x03)
+                    {
+                        current3 = value;
+                        if (isTesting3)
+                        {
+                            if (isFirstCurrent3) { currentMax3 = value; currentMin3 = value; isFirstCurrent3 = false; }
+                            else { currentMax3 = Math.Max(currentMax3, value); currentMin3 = Math.Min(currentMin3, value); }
+                        }
+                    }
+                    else if (adapter == 0x04)
+                    {
+                        current4 = value;
+                        if (isTesting4)
+                        {
+                            if (isFirstCurrent4) { currentMax4 = value; currentMin4 = value; isFirstCurrent4 = false; }
+                            else { currentMax4 = Math.Max(currentMax4, value); currentMin4 = Math.Min(currentMin4, value); }
+                        }
+                    }
+                    break;
+            }
 
-                power = voltage * current;
-
-                power2 = voltage2 * current2;
-
-                power3 = voltage3 * current3;
-
-                power4 = voltage4 * current4;
-
-                textBoxPower1.Text = power.ToString("F3");
-                textBoxVoltage1.Text = voltage.ToString("F3");
-                textBoxCurrent1.Text = current.ToString("F3"); ;
-
-                textBoxPower2.Text = power2.ToString("F3");
-                textBoxVoltage2.Text = voltage2.ToString("F3");
-                textBoxCurrent2.Text = current2.ToString("F3");
-
-                textBoxPower3.Text = power3.ToString("F3");
-                textBoxVoltage3.Text = voltage3.ToString("F3");
-                textBoxCurrent3.Text = current3.ToString("F3");
-
-                textBoxPower4.Text = power4.ToString("F3");
-                textBoxVoltage4.Text = voltage4.ToString("F3");
-                textBoxCurrent4.Text = current4.ToString("F3");
-            }));
+            // Tính toán công suất vào các biến float (Timer sẽ lấy các biến này để hiển thị)
+            power = voltage * current;
+            power2 = voltage2 * current2;
+            power3 = voltage3 * current3;
+            power4 = voltage4 * current4;
         }
 
         private void textBoxPowerMax_TextChanged(object sender, EventArgs e)
@@ -1383,9 +1363,7 @@ namespace Tool_test_adapter_power
                 try
                 {
                     string filePath = Path.Combine(textBoxPathData.Text, $"log_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
-                    //logFile = new StreamWriter(filePath, true);
                     isLogging = true;
-                    //btnStartLogging.Text = "Dừng ghi dữ liệu";
                     MessageBox.Show("Bắt đầu ghi dữ liệu vào: " + filePath, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -1503,15 +1481,6 @@ namespace Tool_test_adapter_power
         }
         private void StopLogging()
         {
-            //if (logFile != null)
-            //{
-            //    logFile.Close();
-            //    logFile.Dispose();
-            //    logFile = null;
-            //    isLogging = false;
-            //    //btnStartLogging.Text = "Bắt đầu ghi dữ liệu";
-            //    MessageBox.Show("Dừng ghi dữ liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //}
         }
 
         private void comboBoxPortUart_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -1751,22 +1720,7 @@ namespace Tool_test_adapter_power
                 }
             }
         }
-        //private void CheckAllTestsCompleted()
-        //{
-        //    // Kiểm tra nếu tất cả adapter được chọn đã hoàn tất
-        //    bool allTestsDone = true;
-        //    if (checkBoxTestAdapter1.Checked && isTesting1) allTestsDone = false;
-        //    if (checkBoxTestAdapter2.Checked && isTesting2) allTestsDone = false;
-        //    if (checkBoxTestAdapter3.Checked && isTesting3) allTestsDone = false;
 
-        //    if (allTestsDone && isRecording)
-        //    {
-        //        // Reset để nhập QR mới
-        //        currentAdapterIndex = 0;
-        //        isWaitingForQR = true;
-        //        ClearAdapterIDs();
-        //    }
-        //}
         private void CheckAllTestsCompleted()
         {
             // Kiểm tra nếu tất cả adapter được chọn đã hoàn tất
@@ -2148,7 +2102,6 @@ namespace Tool_test_adapter_power
             {
                 this.Invoke((Action)(() =>
                 {
-                    // MessageBox.Show($"Gửi dữ liệu API bị tắt cho adapter {adapterIndex}.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }));
                 return;
             }
@@ -2833,6 +2786,115 @@ namespace Tool_test_adapter_power
         private async void buttonRetrySaveData4_Click(object sender, EventArgs e)
         {
             await RetryFailedRequestsForAdapter(4, textBoxIDAdapter4.Text);
+        }
+
+        private void checkBoxShowCalib_CheckedChanged(object sender, EventArgs e)
+        {
+            // Hiển thị/Ẩn nút Calib (button1) dựa theo trạng thái checkbox
+            bool isVisible = checkBoxShowCalib.Checked;
+            btnCalib0V.Visible = isVisible;
+            btnCalib24V.Visible = isVisible;
+        }
+
+        private void btnCalib0V_Click(object sender, EventArgs e) {
+            // Luôn gửi boardId = 0 để yêu cầu calib đồng thời 4 mạch
+            byte boardId = 0;
+            // Gửi lệnh 0x04 xuống để ESP32 lấy mẫu điểm 0 cho cả Áp và Dòng
+            SendCalibCommand(0x04, "Calib Zero (0V-0A)");
+        }
+
+        private void btnCalib24V_Click(object sender, EventArgs e)
+        {
+            // 1. Ép C# đọc số thực theo chuẩn quốc tế (tránh lỗi trên máy tính dùng tiếng Việt)
+            string strV = txtActualV.Text.Replace(",", ".");
+            string strI = txtActualI.Text.Replace(",", ".");
+
+            if (!float.TryParse(strV, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out float vActual) || 
+                !float.TryParse(strI, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out float iActual))
+            {
+                MessageBox.Show("Vui lòng nhập số thực hợp lệ cho V và I (Ví dụ: 24.0)!");
+                return;
+            }
+
+            // 2. Xác định Board đích từ ComboBox
+            byte boardId = (byte)(cboCalibTarget.SelectedIndex >= 0 ? cboCalibTarget.SelectedIndex : 0);
+
+            // 3. Chuyển đổi Float sang mảng Byte (Thứ tự Big Endian cho ESP32)
+            byte[] vBytes = BitConverter.GetBytes(vActual);
+            byte[] iBytes = BitConverter.GetBytes(iActual);
+            if (BitConverter.IsLittleEndian) {
+                Array.Reverse(vBytes);
+                Array.Reverse(iBytes);
+            }
+
+            // 4. Đóng gói bản tin Cmd 0x05 (Scale)
+            byte[] packet = new byte[14];
+            packet[0] = 0x4C; packet[1] = 0x4D;  // Header
+            packet[2] = 0x05;                    // Cmd Calib Scale
+            packet[3] = 0x09;                    // Độ dài data = 1 (ID) + 4 (V) + 4 (I)
+            packet[4] = boardId;                 // Data byte 1: ID Board
+            Array.Copy(vBytes, 0, packet, 5, 4); // Data byte 2-5: Float V
+            Array.Copy(iBytes, 0, packet, 9, 4); // Data byte 6-9: Float I
+
+            // 5. Tính Checksum XOR (tính từ byte ID đến hết dữ liệu)
+            byte checksum = 0;
+            for (int k = 4; k <= 12; k++) checksum ^= packet[k];
+            packet[13] = checksum;
+            // --- ĐOẠN CODE IN RA BYTE CỤ THỂ ---
+            string hexOutput = BitConverter.ToString(packet).Replace("-", " ");
+            Console.WriteLine("Bytes gửi đi: " + hexOutput); // In ra cửa sổ Output của Visual Studio
+            
+            // Nếu bạn muốn hiện lên màn hình để kiểm tra nhanh:
+            MessageBox.Show("Dòng byte gửi đi: " + hexOutput, "Debug UART");
+            // ------------------------------------
+            // 6. Gửi UART
+            if (serialPort1.IsOpen) {
+                serialPort1.Write(packet, 0, packet.Length);
+                string target = (boardId == 0) ? "tất cả các mạch" : "mạch " + boardId;
+                
+                // Hiện thông báo để bạn CHẮC CHẮN 100% C# đã gửi lệnh
+                MessageBox.Show($"Đã gửi lệnh Scale {vActual}V - {iActual}A cho {target}");
+            }
+        }
+
+        // Hàm dùng chung để đóng gói bản tin UART và gửi xuống MCU
+        private void SendCalibCommand(byte cmdId, string info)
+        {
+            if (!serialPort1.IsOpen)
+            {
+                MessageBox.Show("Kết nối UART chưa được thiết lập!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                // // Cấu trúc bản tin theo Protocol của bạn: 
+                // // Header(2B) + CmdID(1B) + Len(1B) + Data(1B) + Checksum(1B)
+                // byte dataValue = 0x00; 
+                // byte checksum = dataValue; // MCU tính XOR từ phần Data (byte index 4)
+                // Lấy ID từ ComboBox (0 = Tất cả, 1-4 = Mạch cụ thể)
+                // Nếu bạn chưa chọn gì, mặc định sẽ là 0 (Tất cả)
+                // Lấy boardId trực tiếp từ ComboBox
+                byte boardId = (byte)(cboCalibTarget.SelectedIndex >= 0 ? cboCalibTarget.SelectedIndex : 0);
+
+                byte[] packet = new byte[] { 
+                    0x4C,      // START_BYTE_1
+                    0x4D,      // START_BYTE_2
+                    cmdId,     // Cmd ID (0x03, 0x04 hoặc 0x05)
+                    0x01,      // Length (1 byte data)
+                    boardId, // Data: ID Board cần calib
+                    boardId   // XOR Checksum
+                };
+
+                serialPort1.Write(packet, 0, packet.Length);
+
+                string targetName = (boardId == 0) ? "tất cả các mạch" : "mạch " + boardId;
+        MessageBox.Show($"Đã gửi lệnh {info} cho {targetName}.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi gửi lệnh calib: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
