@@ -13,3 +13,4 @@ Tool_test_adapter_power.csproj.user
 TestResults/
 .DS_Store
 obj/
+*.user
